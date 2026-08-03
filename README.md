@@ -1,2 +1,115 @@
-# ai_cto
-Tools for building and running an AI based software engineering organization
+# AI-Assisted Development — starter package
+
+Everything you need to run an AI coding assistant on real software without it quietly wrecking
+things. One guide, a drop-in config file, five templates.
+
+The foundations are **DevOps and TDD**. Every other practice here exists to keep those two honest
+when a machine is producing code faster than anyone can read it.
+
+---
+
+## Start here (about 30 minutes)
+
+**1 — Read the guide.** `AI-DEV-BEST-PRACTICES.md`. If you only have ten minutes, read Part 0, then
+Part 2, then the four-item summary at the end. **Part 2 is the one that will save you the most
+pain** — it's about why a green test suite is much weaker evidence than it feels like.
+
+**2 — Install a skill library.** Skills make the AI follow a process instead of improvising one, and
+they fire automatically. Don't build this yourself:
+
+```powershell
+/plugin install superpowers@claude-plugins-official
+```
+
+Source and docs: <https://github.com/obra/superpowers>. Guide §6.4 explains what's in it and maps
+each skill to the practice it enforces.
+
+**3 — Drop in the config.** Copy `starter-CLAUDE.md` into your repo as `CLAUDE.md` (or `AGENTS.md`,
+depending on your tool), then fill in the bracketed parts — your build and test commands, your
+ownership boundary. Instructions are in the file's header.
+
+Or have your assistant do it. Open it in your repo and paste:
+
+> Read `AI-DEV-BEST-PRACTICES.md` in full. Then draft a `CLAUDE.md` for this repository using
+> `starter-CLAUDE.md` as the base, filled in with this codebase's actual build, test, and deploy
+> commands. Show me the draft before writing the file.
+
+**4 — Adopt a Definition of Done.** `templates/definition-of-done.md`, into your repo or wiki. This
+is the cheapest high-value step in the whole package: it gives your team and your AI one shared
+meaning for the word "complete," which is what stops status reports from drifting into fiction.
+
+**5 — Only if you're leading the work:** set up a phase roadmap (`templates/phase-roadmap.md`) and,
+if you integrate against systems you don't own, an issues log (`templates/issues-log.md`). Skip this
+if you're here to write code — the first four steps are the whole job.
+
+---
+
+## What's in here
+
+| File | What it's for |
+|---|---|
+| `AI-DEV-BEST-PRACTICES.md` | The guide. Read it. |
+| `LICENSE` | CC BY-NC 4.0 for the guide, MIT for the templates — see below |
+| `starter-CLAUDE.md` | Drop-in project rules file — rename to `CLAUDE.md` / `AGENTS.md` |
+| `templates/definition-of-done.md` | Shared vocabulary for "complete" (guide §1.8) |
+| `templates/eod-handoff.md` | End-of-day handoff, so work survives a context window (§4.3) |
+| `templates/phase-roadmap.md` | Phase/epic planning doc, one per phase (§4.1) |
+| `templates/issues-log.md` | Findings log for systems you don't own (§3.1) |
+| `templates/architecture-review.md` | Structured review of someone else's design proposal |
+
+Every template uses `<angle-bracket placeholders>`. Fill them in and delete what you don't need.
+
+---
+
+## Read this before you adopt §1.2
+
+The guide argues for **continuous deployment with no manual approval gates** — merge to trunk, green
+pipeline, it ships. That is correct **when you own the blast radius**: internal tools, your own
+services, systems whose failure costs you rather than a customer.
+
+If you're shipping something with real money, safety, or regulatory exposure, keep the gates
+automated and add whatever promotion control your actual risk justifies. The principle that holds
+either way:
+
+> **The gate is mechanical. The judgment goes into the gate, not into the moment of shipping.**
+
+It's the one section a skim-reader can misapply badly. Everything else in the guide is safe to adopt
+as written.
+
+---
+
+## License
+
+Dual-licensed, so the parts you *read* and the parts you *paste* have different terms.
+
+- **The guide** (`AI-DEV-BEST-PRACTICES.md` and this README) — **CC BY-NC 4.0**, plus an explicit
+  grant for **internal use inside your own organization, commercial or not.** Read it, share it,
+  and build your own internal standards and training from it. What you can't do is sell it, bundle
+  it into a paid product, or deliver paid consulting or training whose substance is this material.
+- **`starter-CLAUDE.md` and everything in `templates/`** — **MIT**, with no strings. These exist to
+  be copied into your repo and edited beyond recognition, and a scaffold carrying licensing
+  obligations into your codebase is one your legal team will just tell you not to use.
+
+So: use it at work, freely. Teach your team from it. Just don't resell it.
+
+Commercial licenses are available — see `LICENSE` for terms, attribution wording, and contact.
+
+---
+
+## A note on where this came from
+
+Distilled from roughly three months of working agreements, code reviews, and post-mortems on a
+production system built this way — versioned releases, gated continuous deployment, ~1,800
+automated tests, disaster recovery proven by actually tearing the thing down and rebuilding it from
+source.
+
+The specific numbers and failures in the guide are real. The systems they happened to are not named,
+and nothing here is confidential to any client. Use it, adapt it, pass it to a colleague.
+
+Two suggestions if you do pass it on. Keep Part 7 — the catalogue of ways tooling lies to you — even
+though it looks like the most skippable section; it's the part people come back to. And fold your
+own post-mortems into it as you accumulate them. A best-practices doc that never grows is a doc
+nobody learned anything from.
+
+Found this useful, or disagreed with something hard enough to want to argue about it? Open an issue
+at <https://github.com/tkablitz/ai_cto>.

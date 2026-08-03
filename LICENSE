@@ -1,3 +1,90 @@
+Copyright (c) 2026 Torsten Kablitz.
+All rights reserved except as expressly granted below.
+
+THIS IS NOT AN OPEN-SOURCE LICENSE. The guides in this repository are made
+available for reading, internal use, and non-commercial sharing. They may not
+be sold, sublicensed, or used as the substance of a commercial offering
+without a separate written license. See section 3.
+
+The templates are a deliberate exception and are MIT-licensed, so that you can
+paste them into your own projects without obligation. See section 2.
+
+================================================================================
+1. THE GUIDES — CC BY-NC 4.0, plus an internal-use grant
+================================================================================
+
+Applies to:
+
+    AI-DEV-BEST-PRACTICES.md
+    README.md
+
+Licensed under Creative Commons Attribution-NonCommercial 4.0 International
+(CC BY-NC 4.0).
+
+    License deed:    https://creativecommons.org/licenses/by-nc/4.0/
+    Full legal code: https://creativecommons.org/licenses/by-nc/4.0/legalcode
+
+The legal code at that URL is the authoritative text. The summary below is for
+convenience and does not replace it.
+
+YOU MAY:
+
+  - Read, copy, and redistribute the guides in any medium or format.
+  - Adapt, remix, and build upon them.
+  - Do both of the above for NON-COMMERCIAL purposes, with attribution.
+
+ADDITIONAL GRANT — INTERNAL ORGANIZATIONAL USE:
+
+  Notwithstanding the NonCommercial restriction, you are additionally granted
+  the right to use and adapt the guides INTERNALLY within your own
+  organization, including a for-profit organization, for the purpose of
+  improving your own engineering practice. This expressly includes deriving
+  your own internal standards, rules files, onboarding material, and training
+  from them.
+
+  This grant is additional permission, not an additional restriction, and is
+  compatible with the underlying license.
+
+YOU MAY NOT, without a separate written license:
+
+  - Sell, license, or charge for the guides or any adaptation of them.
+  - Include them, in whole or in substantial part, in a paid product, paid
+    course, paid subscription, or other commercial offering.
+  - Use them as the substantive content of paid consulting, training, or
+    advisory services delivered to third parties.
+  - Republish them under different authorship or without attribution.
+
+ATTRIBUTION:
+
+  When you share or adapt these guides, credit as follows:
+
+      "AI-Assisted Development: Best Practices for Real Systems" by Torsten
+      Kablitz — https://github.com/tkablitz/ai_cto — used under CC BY-NC 4.0.
+      Changes were made.
+
+  Drop the final sentence if you did not modify it.
+
+================================================================================
+2. THE TEMPLATES AND STARTER CONFIG — MIT License
+================================================================================
+
+Applies to:
+
+    CLAUDE.md
+    starter-CLAUDE.md
+    templates/architecture-review.md
+    templates/definition-of-done.md
+    templates/eod-handoff.md
+    templates/issues-log.md
+    templates/phase-roadmap.md
+
+These are deliberately permissive. They exist to be copied into your own
+repositories and edited beyond recognition, and a scaffold that carries
+licensing obligations into someone else's codebase is a scaffold nobody will
+use. MIT so that adoption has no legal friction.
+
+--------------------------------------------------------------------------------
+
 MIT License
 
 Copyright (c) 2026 Torsten Kablitz
@@ -19,3 +106,38 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+================================================================================
+3. COMMERCIAL LICENSING
+================================================================================
+
+Commercial use of the guides — reselling, bundling into a paid product, or
+delivering paid training or consulting whose substance is this material —
+requires a separate written license.
+
+    Contact: https://github.com/tkablitz
+
+Licenses are available. The intent of this file is not to prevent use; it is
+to keep the commercial rights with the author while the material stays freely
+readable and freely usable inside the organizations that adopt it.
+
+================================================================================
+4. THIRD-PARTY MATERIAL
+================================================================================
+
+Nothing in this repository is third-party. The Superpowers skill library is
+referenced by the guides but is not bundled here; it is separately licensed
+under its own repository's terms:
+
+    https://github.com/obra/superpowers
+
+================================================================================
+5. NO WARRANTY, NO ADVICE
+================================================================================
+
+These documents describe practices that worked on one production system. They
+are provided as-is, with no warranty of any kind. Nothing here is legal,
+security, or compliance advice. You are responsible for deciding what applies
+to your own systems and your own risk — see in particular the caveat in
+README.md about scoping continuous deployment to the blast radius you actually
+own.

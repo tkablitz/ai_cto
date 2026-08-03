@@ -77,6 +77,16 @@ for f in $(git ls-files | grep -v '^LICENSE$'); do grep -qF "$f" LICENSE || echo
 The license terms also appear in `README.md` and in the guide footer. **All three must agree** —
 individual files get forwarded without the repo, so each carries its own notice.
 
+The MIT files carry that notice as a one-line SPDX comment at the end, because the README tells
+readers to copy them out and a file that travels without its terms is a file nobody's legal team
+will clear. `CLAUDE.md` is the exception and deliberately has none: it is the one MIT file that is
+not meant to leave this repo. **A new template needs both its `LICENSE` section 2 entry and its
+SPDX line** — verify mechanically:
+
+```bash
+for f in starter-CLAUDE.md templates/*.md; do grep -q SPDX "$f" || echo "NO NOTICE: $f"; done
+```
+
 ## Editorial standards
 
 - **The guides are reviewed artifacts.** Substantive changes get the owner's review before push.

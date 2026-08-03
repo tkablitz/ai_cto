@@ -37,3 +37,5 @@ recorded but never substitute for the system fix.
 - **Status:** Deferred — heads-up for <team>
 - **Context:** <what's coming that makes this matter>
 - **Ask:** <options, ranked>
+
+<!-- SPDX-License-Identifier: MIT · © 2026 Torsten Kablitz · https://github.com/tkablitz/ai_cto -->

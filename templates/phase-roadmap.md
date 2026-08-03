@@ -36,3 +36,5 @@ made early; scope sketch; gotchas already known; alternatives explicitly rejecte
   what the deploy proved, suite counts, defects found-and-fixed on the way>
 - [ ] **Epic 2 — <name>** — …
 - [ ] **Exit gate** — <each box + evidence link when run>
+
+<!-- SPDX-License-Identifier: MIT · © 2026 Torsten Kablitz · https://github.com/tkablitz/ai_cto -->

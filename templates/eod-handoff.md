@@ -20,3 +20,5 @@
 - Tags: <range>. Suites: <counts per project>.
 - Roadmap tracker updated. Memories current: <files touched>. 
 - Op notes: <sharp-edged environment facts learned today, one line each>.
+
+<!-- SPDX-License-Identifier: MIT · © 2026 Torsten Kablitz · https://github.com/tkablitz/ai_cto -->

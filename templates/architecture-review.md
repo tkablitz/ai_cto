@@ -45,3 +45,5 @@ worsens. "The findings don't contradict the architecture — they sequence it.">
 <One paragraph. Adopt-the-thesis / reject-the-blueprint is a common honest shape.>
 
 *Created by Claude <model>, reviewed by <owner>.*
+
+<!-- SPDX-License-Identifier: MIT · © 2026 Torsten Kablitz · https://github.com/tkablitz/ai_cto -->

@@ -53,3 +53,5 @@ Prototype, no matter how well it demos.
 4. Police the two recurring failure patterns: **aspirational-as-current** (target architecture
    in present tense) and **demo-as-done** (sandbox walkthrough labeled Completed).
 5. A milestone is met when its rows are **Complete with evidence** — not when the demo went well.
+
+<!-- SPDX-License-Identifier: MIT · © 2026 Torsten Kablitz · https://github.com/tkablitz/ai_cto -->

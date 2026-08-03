@@ -51,6 +51,7 @@ if you're here to write code — the first four steps are the whole job.
 | `AI-DEV-BEST-PRACTICES.md` | The guide. Read it. |
 | `LICENSE` | CC BY-NC 4.0 for the guide, MIT for the templates — see below |
 | `starter-CLAUDE.md` | Drop-in project rules file — rename to `CLAUDE.md` / `AGENTS.md` |
+| `CLAUDE.md` | Rules for maintaining *this* repo. **Not** the file you copy — use `starter-CLAUDE.md`. Kept here as a worked example of §6.1 |
 | `templates/definition-of-done.md` | Shared vocabulary for "complete" (guide §1.8) |
 | `templates/eod-handoff.md` | End-of-day handoff, so work survives a context window (§4.3) |
 | `templates/phase-roadmap.md` | Phase/epic planning doc, one per phase (§4.1) |

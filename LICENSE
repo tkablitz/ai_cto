@@ -65,7 +65,7 @@ ATTRIBUTION:
   Drop the final sentence if you did not modify it.
 
 ================================================================================
-2. THE TEMPLATES AND STARTER CONFIG — MIT License
+2. THE TEMPLATES, STARTER CONFIG, AND REPO RULES — MIT License
 ================================================================================
 
 Applies to:
@@ -82,6 +82,10 @@ These are deliberately permissive. They exist to be copied into your own
 repositories and edited beyond recognition, and a scaffold that carries
 licensing obligations into someone else's codebase is a scaffold nobody will
 use. MIT so that adoption has no legal friction.
+
+CLAUDE.md is this repository's own rules file rather than a scaffold, but it
+falls under the same terms: it ships as a worked example of the practice the
+guide describes, and an example you cannot freely copy teaches nothing.
 
 --------------------------------------------------------------------------------
 

@@ -861,9 +861,8 @@ green build) was accepted as proof of a mechanism nobody had actually checked.
 
 ---
 
-*Created by Claude Opus 5, reviewed by Torsten Kablitz · 2026-08-03. Distilled from three months of
-working agreements and post-mortems on a production system; no proprietary or client-identifying
-material.*
+*Created by Claude Opus 5, reviewed by Torsten Kablitz · 2026-08-03. Distilled from years of DevOps
+and TDD practice across production systems; no proprietary or client-identifying material.*
 
 *Home: <https://github.com/tkablitz/ai_cto>*
 

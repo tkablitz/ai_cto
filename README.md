@@ -126,13 +126,18 @@ Commercial licenses are available — see `LICENSE` for terms, attribution wordi
 
 ## A note on where this came from
 
-Distilled from roughly three months of working agreements, code reviews, and post-mortems on a
-production system built this way — versioned releases, gated continuous deployment, ~1,800
-automated tests, disaster recovery proven by actually tearing the thing down and rebuilding it from
-source.
+Distilled from years of DevOps and TDD practice — the working agreements, code reviews, and
+post-mortems behind production systems built this way: versioned releases, gated continuous
+deployment, suites running to ~1,800 automated tests, disaster recovery proven by actually tearing a
+system down and rebuilding it from source.
 
-The specific numbers and failures in the guide are real. The systems they happened to are not named,
-and nothing here is confidential to any client. Use it, adapt it, pass it to a colleague.
+The specific numbers and failures in the guide are real. They are also **ordinary** — every one is a
+way that any sufficiently complex system can break, which is exactly why they earn their place here
+rather than being embarrassing. Process does not prevent failure. It makes failure an expected
+result rather than a surprise, and turns an incident into a regression test instead of a bad week.
+
+The systems these happened to are not named, and nothing here is confidential to any client. Use it,
+adapt it, pass it to a colleague.
 
 Two suggestions if you do pass it on. Keep Part 7 — the catalogue of ways tooling lies to you — even
 though it looks like the most skippable section; it's the part people come back to. And fold your

@@ -62,6 +62,33 @@ Every template uses `<angle-bracket placeholders>`. Fill them in and delete what
 
 ---
 
+## This is process, not a product
+
+**Don't clone or fork this repo as the base for your own project.** There is nothing here to build
+on — no application, no build, no CI config, no source tree. Cloning it gets you a git history and
+a `CLAUDE.md` that belong to *this* repository rather than yours, and you'd spend your first hour
+deleting things.
+
+Start your project the normal way, with whatever scaffolding tool fits it. Then bring in only the
+pieces you have a use for:
+
+| Bring in | When |
+|---|---|
+| `starter-CLAUDE.md` → your `CLAUDE.md` | Day one, always. Highest-leverage file here |
+| `templates/definition-of-done.md` | Day one. Cheapest way to stop "done" from drifting |
+| `templates/eod-handoff.md` | Once work starts spanning more than a day |
+| `templates/phase-roadmap.md`, `templates/issues-log.md` | Only if you're leading the work |
+| `templates/architecture-review.md` | When someone hands you a design to review |
+
+**The guide is read, not copied.** Link to it from your repo if it helps; don't vendor it. The
+licensing follows the same line, and it matters in a commercial setting: `starter-CLAUDE.md` and
+everything in `templates/` are MIT, so they can live in a company codebase with no obligations,
+while the guide is CC BY-NC. Copy the scaffolds freely — leave the guide here.
+
+Take the rest when you hit the need for it, not before. That is §1.11 applied to this package.
+
+---
+
 ## Read this before you adopt §1.2
 
 The guide argues for **continuous deployment with no manual approval gates** — merge to trunk, green

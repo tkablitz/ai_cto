@@ -1,7 +1,7 @@
 # Architecture Review — <Proposal name>
 
 > **What this reviews:** <artifacts, dated>. **Reviewed against:** the actual current state
-> (<inventory/overview doc>) and the accumulated findings (<issues log>). _Compiled <date>._
+> (<inventory/overview doc>) and the accumulated findings (<issues log>). _Compiled `<date>`._
 
 ## 0. TL;DR
 <4–6 bullets: verdict up front — what to adopt, what to fix, what to reject, the LoE headline,
@@ -44,6 +44,6 @@ worsens. "The findings don't contradict the architecture — they sequence it.">
 ## 9. Verdict
 <One paragraph. Adopt-the-thesis / reject-the-blueprint is a common honest shape.>
 
-*Created by Claude <model>, reviewed by <owner>.*
+*Created by Claude `<model>`, reviewed by `<owner>`.*
 
 <!-- SPDX-License-Identifier: MIT · © 2026 Torsten Kablitz · https://github.com/tkablitz/ai_cto -->

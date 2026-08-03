@@ -1,9 +1,9 @@
-# <Company> — Definition of Done
+# `<Company>` — Definition of Done
 
 **Audience:** development team + project/product management.
 **Purpose:** one shared meaning for the word "Completed," so status tables, standups, and
 architecture documents say the same thing to everyone.
-**Created by Claude <model>, reviewed by <owner> · <date>**
+**Created by Claude `<model>`, reviewed by `<owner>` · `<date>`**
 
 ## 1. The core rule
 
@@ -43,7 +43,7 @@ Prototype, no matter how well it demos.
 
 | Item | Status (env) | Evidence |
 |---|---|---|
-| <feature> | Complete (staging) | <command a reviewer can run read-only, with expected output / pipeline run ID / probe URL> |
+| `<feature>` | Complete (staging) | <command a reviewer can run read-only, with expected output / pipeline run ID / probe URL> |
 
 ## 5. For the PM — running a status review
 

@@ -1,7 +1,7 @@
-# <System> Issues & Observations
+# `<System>` Issues & Observations
 
 Living doc tracking bugs, contract ambiguities, and future requirements observed by
-<your validation tool / review process> while integrating against <system> at <host>.
+<your validation tool / review process> while integrating against `<system>` at `<host>`.
 
 **Status legend:**
 - `Open` — awaiting investigation / decision
@@ -18,8 +18,8 @@ recorded but never substitute for the system fix.
 
 ## Issue #1 — <one-line title>
 
-- **Date observed:** <date>
-- **Endpoint/Component:** <what>
+- **Date observed:** `<date>`
+- **Endpoint/Component:** `<what>`
 - **Status:** Open
 - **Failure signature:**
   ```
@@ -34,7 +34,7 @@ recorded but never substitute for the system fix.
 
 ## Future Requirement — <heads-up title>
 
-- **Status:** Deferred — heads-up for <team>
+- **Status:** Deferred — heads-up for `<team>`
 - **Context:** <what's coming that makes this matter>
 - **Ask:** <options, ranked>
 

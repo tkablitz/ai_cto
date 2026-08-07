@@ -93,6 +93,29 @@ standing gate — the answer is usually yes, and it usually costs ten extra minu
 
 This compounds: the accumulated gate suite *is* the evidence that makes no-approval CD safe.
 
+**And it applies to artifacts, not only to code.** Ask what a repository *asserts*, not what it
+executes. A docs, config, or infrastructure repo asserts that its files are licensed, that the
+references in its prose resolve, that the commands it documents still run, and — if it is public —
+that its contents are safe to publish. Every one of those can quietly become false. None of them
+has a compiler to notice, which is precisely why nobody thinks to test a repository that holds no
+code: the invariants are real and the violations are silent.
+
+The tell is a checklist. **If a repo's rules file documents commands to run before a push, those
+commands are its test suite** — written down, un-run, and dependent on somebody remembering. One
+such repo had accumulated ten, executed by hand and retyped slightly differently each time. A
+retyped check is a fresh opportunity to author it wrong, and nothing guarantees the mistake fails
+safe rather than reporting a clean result it never earned.
+
+Two bounds keep this from becoming ceremony:
+
+- **Gate only the assertions whose failure is expensive to discover late.** A slow or noisy gate
+  gets bypassed, and a bypassed gate is worse than none, because it still reads as protection.
+- **Where the failure is irreversible, the gate must run before the irreversible step.** For a
+  public repository that means a local pre-push hook, not CI. A pipeline runs *after* the push,
+  and for a public repo the push *is* the publication — including a branch push. A leaked name is
+  fetchable and forkable before the first workflow starts. CI is the right tool for everything you
+  can fix afterwards, and the wrong one for anything you cannot.
+
 ### 1.4 Everything as code
 
 - Infrastructure in IaC, deployed **only** by pipeline. Portal/console changes to owned resources

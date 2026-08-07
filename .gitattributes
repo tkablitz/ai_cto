@@ -1,0 +1,16 @@
+# Git for Windows installs with core.autocrlf=true, which checks every file out
+# as CRLF while the repository stores LF. Pinning eol here overrides that
+# regardless of any individual machine's global Git config.
+#
+# It matters more for this repo than for most, because the README tells readers
+# to copy starter-CLAUDE.md and templates/*.md out into their own repositories
+# — several of which will enforce LF. A scaffold that arrives with the wrong
+# line endings makes its first commit a whole-file diff.
+#
+# text=auto keeps Git's binary detection: binary files are left alone.
+#
+# Note that the obvious guard for this ("no tracked file contains CRLF") passes
+# vacuously on a Linux runner whether or not this file exists. See §2.2 of
+# AI-DEV-BEST-PRACTICES.md — a property that is only observable on some
+# platforms needs the mechanism asserted too.
+* text=auto eol=lf

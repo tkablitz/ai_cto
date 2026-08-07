@@ -79,13 +79,21 @@ individual files get forwarded without the repo, so each carries its own notice.
 
 The MIT files carry that notice as a one-line SPDX comment at the end, because the README tells
 readers to copy them out and a file that travels without its terms is a file nobody's legal team
-will clear. `CLAUDE.md` is the exception and deliberately has none: it is the one MIT file that is
-not meant to leave this repo. **A new template needs both its `LICENSE` section 2 entry and its
-SPDX line** — verify mechanically:
+will clear. `CLAUDE.md` and `.gitattributes` are the exceptions and deliberately have none: they
+are the MIT files not meant to leave this repo — one is this repo's own rules, the other is
+infrastructure a reader would recreate rather than copy. **A new template needs both its `LICENSE`
+section 2 entry and its SPDX line** — verify mechanically:
 
 ```bash
 for f in starter-CLAUDE.md templates/*.md; do grep -q SPDX "$f" || echo "NO NOTICE: $f"; done
 ```
+
+> **Deferred — a guard test for `.gitattributes`.** The obvious guard ("no tracked file contains
+> CRLF") passes vacuously on a Linux runner whether or not the file exists, so a real one needs a
+> mechanism assertion alongside it — §2.2 of the guide. This repo has no CI to run either in.
+> **Adopt when** this repo grows a pipeline for any reason; the guard is a few lines and belongs in
+> that same commit. Until then the deletion risk is carried by review, not by a gate — which is
+> vigilance, and named as such rather than pretended otherwise.
 
 ## Editorial standards
 

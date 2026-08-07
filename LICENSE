@@ -70,6 +70,7 @@ ATTRIBUTION:
 
 Applies to:
 
+    .gitattributes
     CLAUDE.md
     starter-CLAUDE.md
     templates/architecture-review.md
@@ -85,7 +86,9 @@ use. MIT so that adoption has no legal friction.
 
 CLAUDE.md is this repository's own rules file rather than a scaffold, but it
 falls under the same terms: it ships as a worked example of the practice the
-guide describes, and an example you cannot freely copy teaches nothing.
+guide describes, and an example you cannot freely copy teaches nothing. The
+same applies to .gitattributes, which is repository infrastructure rather than
+teaching material but is named here so that no file falls through the gap.
 
 --------------------------------------------------------------------------------
 

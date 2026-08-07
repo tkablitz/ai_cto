@@ -70,6 +70,9 @@ this fix?"
 - **No manual approval gates in the pipeline.** Merge to trunk, green CI + CD, it ships. Safety
   lives in the depth of the gates, not in a human clicking approve. This is the DevOps Handbook's
   First Way: build quality in, prefer peer review over change-approval boards.
+- **Every gate must be runnable on the platforms your developers actually use.** A gate only the
+  runner can execute turns a five-second local check into a push-and-wait cycle, and it teaches
+  people to push in order to find out. See Part 7 for how this hides.
 
 > **Scope this honestly.** No-approvals CD is correct when *you own the blast radius* — internal
 > tools, your own services, systems whose failure costs you and not a customer. For a
@@ -224,7 +227,7 @@ mind.
 > write the exclusion list anyway — "today" is the part that expires. Prefer naming the cases you
 > are ruling *out* over widening the positive test.
 
-### 2.2 Two more that look like passes
+### 2.2 Three more that look like passes
 
 **A conditional gate can be skipped many times in a row, and its skips look like passes.** A
 post-deploy assertion only executed when a live workload existed at deploy time. Three consecutive
@@ -243,6 +246,18 @@ transition had no coverage at all.
 
 > **Ask of any change: is there a transition here that only a live run crosses?** Those are where
 > defects hide, because they are the states your fixtures can't easily construct.
+
+**An assertion can be unobservable where it runs, and pass for that reason.** A repository pinned
+line endings with a `.gitattributes` rule and guarded it with a test asserting the property: *no
+tracked file has CRLF*. On the Linux CI runner that test passes whether or not the rule exists —
+nothing on that platform produces CRLF to begin with. Delete `.gitattributes` and the guard stays
+green forever, on the only machine that runs it. This is the fourth failure shape wearing platform
+clothing: *would this check still pass if the feature were entirely absent?* On Linux, yes.
+
+> **When a property is only observable on some platforms, assert the mechanism as well** — that the
+> rule guaranteeing the property exists and says what you think it says. The property assertion
+> catches a real violation where one can occur; the mechanism assertion fails everywhere, including
+> on the runner that cannot see the property. Neither is sufficient alone.
 
 ### 2.3 The review technique
 
@@ -454,6 +469,12 @@ One file per day: what shipped (with versions and run IDs), what's open, and **e
 pointers**. The next session starts by reading it. This is what makes multi-day AI work coherent —
 context windows end, and the handoff is what survives.
 
+**Push before you write it.** A handoff describing work that exists in one working directory is a
+promise, not a record. A crash recovery on one machine restored a snapshot that turned out to be a
+day old rather than minutes old, and took more than a day of work with it — work the handoff
+faithfully described and could not restore. Un-pushed work is not work, and an AI-assisted day
+produces enough of it to make that expensive.
+
 ### 4.4 Memory discipline
 
 If your tool has persistent memory, curate it:
@@ -465,6 +486,11 @@ If your tool has persistent memory, curate it:
   memory, because it's confidently retrieved.
 - **Memories are point-in-time observations.** Anything citing a file, function, or flag needs
   re-verification before you act on it.
+- **A memory that hard-codes a machine path is worse than one that hard-codes a fact**, because it
+  fails silently rather than visibly — and if memories get seeded into new projects, it re-seeds the
+  staleness into each one. A path that is right on one machine is wrong on every other, so
+  "correcting" it only moves which machine is broken. Store the identity that travels — a repository
+  URL, a package name — and resolve the local path at setup time instead.
 
 ### 4.5 Full-stack restart per run
 
@@ -636,6 +662,14 @@ to miss: **keep it short**, because it is loaded into context on every turn and 
 line continuously; and **keep it true**, because a stale rules file is read first and is
 confidently wrong.
 
+**Keeping it true means running the commands before you write them down.** One rules file
+documented three ways to run a single test. All three failed: one named a test file for a feature
+that had never been built, one a test name that had never existed, and one a script no package
+declared. The broken lines were the copy-pasteable ones, so they were the first thing every new
+session ran — the file's most-used content was its least-true, and each session burned time
+rediscovering that before it could start. Re-check them whenever the tree moves underneath them.
+A rules file is the one document that gets read *before* anything is in a position to correct it.
+
 The shape:
 
 ```markdown
@@ -803,6 +837,16 @@ before declaring an upload done.
 A whole category of script tests sat in the repo, ran locally, and were silently absent from CI.
 → **Confirm each test type actually executes in the pipeline** — find its output in the build log,
 by name.
+
+**A gate that cannot be run locally is half a gate.**
+A formatting check passed on the Linux runner and failed on all 94 files on every Windows machine:
+Git for Windows checks files out as CRLF and the formatter defaulted to LF. Nobody could satisfy
+the gate before pushing, so formatting breaks were discoverable only after they were already in the
+history. It is the mirror image of the entry above, and harder to spot, because the gate *was*
+running — just nowhere a developer could reach it.
+→ **Confirm every gate runs on the platforms developers actually use, not only on the runner.**
+Cross-platform defaults are the usual culprit: line endings, path separators, case sensitivity,
+locale.
 
 The through-line for all of them: **confirm the mechanism, don't infer it from a symptom.** Every
 one of these was a case where a plausible signal (exit 0, an empty list, "the site responds", a

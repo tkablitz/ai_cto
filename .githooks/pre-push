@@ -54,6 +54,21 @@ if [ ! -s "$patterns" ]; then
   exit 1
 fi
 
+# Strip blank lines and comments before use. A blank line in a -f pattern file
+# is an EMPTY REGEX, which matches every line of every file — the hook would
+# block every push and the list would look perfectly reasonable.
+effective=$(mktemp) || exit 1
+trap 'rm -f "$effective"' EXIT
+grep -v -e '^[[:space:]]*$' -e '^[[:space:]]*#' "$patterns" > "$effective"
+
+if [ ! -s "$effective" ]; then
+  say ""
+  say "  BLOCKED  $patterns contains no usable patterns"
+  say "           (only blank lines and comments)"
+  say ""
+  exit 1
+fi
+
 # ---------------------------------------------------------------------------
 # Work out which commits this push would actually publish, per ref.
 # ---------------------------------------------------------------------------
@@ -92,7 +107,7 @@ say "  $n commit(s) to scan"
 for c in $commits; do
   short=$(git rev-parse --short "$c")
 
-  if hits=$(git grep -I -n -i -E -f "$patterns" "$c" -- 2>/dev/null); then
+  if hits=$(git grep -I -n -i -E -f "$effective" "$c" -- 2>/dev/null); then
     flag "excluded name in $short:"
     printf '%s\n' "$hits" | sed 's/^/           /' >&2
   fi

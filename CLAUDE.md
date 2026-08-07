@@ -21,13 +21,29 @@ The guides deliberately describe real failures with real numbers. That is fine *
 systems are unnamed and unnameable from the text.** Keep it that way: when adding a new lesson,
 write the mechanism and the consequence, never the context that identifies where it happened.
 
-**Before any push**, run the leakage scan and get an empty result:
+**A pre-push hook enforces this.** It lives in `.githooks/pre-push`, and it is a *hook* rather
+than CI on purpose: GitHub Actions runs after the push, and by then the blob is public. For an
+irreversible failure, a check that runs afterwards is a notification, not a gate.
+
+Hooks are not cloned — git will not run code that arrived over the wire — so **activate it once
+per clone**, and give it the name list it cannot carry itself:
 
 ```powershell
-Select-String -Path *.md, templates\*.md -Pattern '<client>|<employer>|<product>|<colleague>|C:\\Users'
+git config core.hooksPath .githooks
+# then write the real names into .git/leak-patterns, one regex per line —
+# untracked, because the list itself is the thing that must never be published
 ```
 
-Substitute the real names for the placeholders. An empty result is the go/no-go.
+If that list is missing, the hook **fails** rather than passing quietly. A scan with nothing to
+scan for returns clean and looks identical to a real pass; see §2.2 of the guide.
+
+It checks every tree being pushed for excluded names and local paths, checks author and committer
+identity, and checks that every file is named in `LICENSE` and carries its SPDX notice. It does
+not replace judgment about what belongs here — it catches the cases where judgment was already
+exercised and then forgotten.
+
+`git push --no-verify` bypasses it, as it bypasses any hook. That is git's design and cannot be
+prevented from inside the hook.
 
 **Scan the history, not just the working tree.** Deleting a file in a later commit does not
 unpublish it — if the commit that *added* it gets pushed, the blob is public forever and
@@ -79,10 +95,12 @@ individual files get forwarded without the repo, so each carries its own notice.
 
 The MIT files carry that notice as a one-line SPDX comment at the end, because the README tells
 readers to copy them out and a file that travels without its terms is a file nobody's legal team
-will clear. `CLAUDE.md` and `.gitattributes` are the exceptions and deliberately have none: they
-are the MIT files not meant to leave this repo — one is this repo's own rules, the other is
-infrastructure a reader would recreate rather than copy. **A new template needs both its `LICENSE`
-section 2 entry and its SPDX line** — verify mechanically:
+will clear. **Repository infrastructure carries no notice** — today `CLAUDE.md`, `.gitattributes`,
+and `.githooks/` — because none of it is meant to leave: it is this repo's own rules and plumbing,
+not material a reader copies out. Stated as a category rather than a list, so adding plumbing does
+not require editing this sentence. Everything a reader *is* told to copy needs a notice.
+**A new template needs both its `LICENSE` section 2 entry and its SPDX line** — verify
+mechanically:
 
 ```bash
 for f in starter-CLAUDE.md templates/*.md; do grep -q SPDX "$f" || echo "NO NOTICE: $f"; done

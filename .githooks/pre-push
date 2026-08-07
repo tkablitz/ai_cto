@@ -1,0 +1,158 @@
+#!/bin/sh
+#
+# Pre-push gate for a PUBLIC repository.
+#
+# A push here is irreversible publication: within minutes the blobs are forked,
+# cached and indexed, and deleting a file in a later commit does not unpublish
+# it. CI cannot help — GitHub Actions runs *after* the push, by which time a
+# leaked name is already public. That is why these particular checks are local
+# and run before the push, not in a workflow.
+#
+# Activate once per clone (hooks are not cloned, by design):
+#
+#     git config core.hooksPath .githooks
+#
+# `git push --no-verify` bypasses this. That is git's behaviour and cannot be
+# prevented from here; it is why the recoverable checks are duplicated in CI
+# when CI exists.
+
+set -u
+
+fail=0
+say()  { printf '%s\n' "$*" >&2; }
+flag() { say "  BLOCKED  $*"; fail=1; }
+
+git_dir=$(git rev-parse --git-dir)
+patterns="$git_dir/leak-patterns"
+
+say ""
+say "pre-push: checking what this push would publish"
+
+# ---------------------------------------------------------------------------
+# 0. The pattern list must exist.
+#
+# A check that cannot run must fail, never pass quietly. If this file is
+# missing, the name scan below would find nothing and look identical to a
+# clean result — the vacuous pass described in §2.2 of the guide.
+# ---------------------------------------------------------------------------
+if [ ! -s "$patterns" ]; then
+  say ""
+  say "  BLOCKED  no leak-pattern list at:"
+  say "           $patterns"
+  say ""
+  say "  Without it the name scan cannot run, and a check that cannot run must"
+  say "  not report success. Create it with the real names that must never"
+  say "  appear here — one extended-regex pattern per line, matched"
+  say "  case-insensitively:"
+  say ""
+  say "      acme-corp"
+  say "      some-product-name"
+  say "      firstname-lastname"
+  say ""
+  say "  It lives inside .git/ so it is never committed and never published."
+  say ""
+  exit 1
+fi
+
+# ---------------------------------------------------------------------------
+# Work out which commits this push would actually publish, per ref.
+# ---------------------------------------------------------------------------
+commits=""
+while read -r _local_ref local_sha _remote_ref remote_sha; do
+  case "$local_sha" in
+    *[!0]*) ;;          # a real sha
+    *) continue ;;      # all zeros: branch deletion, nothing published
+  esac
+
+  case "$remote_sha" in
+    *[!0]*) range=$(git rev-list "$remote_sha..$local_sha") ;;
+    *)      range=$(git rev-list "$local_sha" --not --remotes) ;;
+  esac
+
+  commits="$commits $range"
+done
+
+commits=$(printf '%s\n' $commits | sort -u)
+
+if [ -z "$commits" ]; then
+  say "  nothing new to publish"
+  exit 0
+fi
+
+n=$(printf '%s\n' "$commits" | grep -c .)
+say "  $n commit(s) to scan"
+
+# ---------------------------------------------------------------------------
+# 1. Names and local paths, across EVERY tree being published.
+#
+# Not just the working tree, and not just the diff: a file added in one commit
+# and deleted in the next is still published if both commits are pushed, and
+# `git show <sha>:<path>` retrieves it forever.
+# ---------------------------------------------------------------------------
+for c in $commits; do
+  short=$(git rev-parse --short "$c")
+
+  if hits=$(git grep -I -n -i -E -f "$patterns" "$c" -- 2>/dev/null); then
+    flag "excluded name in $short:"
+    printf '%s\n' "$hits" | sed 's/^/           /' >&2
+  fi
+
+  # A real path carries a real username segment. The rules file legitimately
+  # documents the placeholder form (`C:\Users\...`), so requiring an
+  # alphanumeric after the separator keeps the rule's own statement of itself
+  # from blocking every push forever. Verified: without this the hook fails
+  # closed on CLAUDE.md and can never be satisfied.
+  if hits=$(git grep -I -n -E \
+              -e 'C:\\Users\\[A-Za-z0-9]' \
+              -e '/home/[a-z][a-z0-9_-]*/' \
+              -e '/Users/[A-Za-z0-9][A-Za-z0-9_-]*/' \
+              "$c" -- 2>/dev/null); then
+    flag "local filesystem path in $short:"
+    printf '%s\n' "$hits" | sed 's/^/           /' >&2
+  fi
+done
+
+# ---------------------------------------------------------------------------
+# 2. Commit metadata. Author and committer email are published too, and are
+#    not removable without rewriting history the remote already holds.
+# ---------------------------------------------------------------------------
+for c in $commits; do
+  for addr in $(git log -1 --format='%ae%n%ce' "$c" | sort -u); do
+    case "$addr" in
+      *@users.noreply.github.com|*@gmail.com|*@qednet.com) ;;
+      *)
+        flag "unexpected identity in $(git rev-parse --short "$c"): $addr"
+        say  "           add it to the allowlist in .githooks/pre-push if it is intended"
+        ;;
+    esac
+  done
+done
+
+# ---------------------------------------------------------------------------
+# 3. Licensing, checked against the tip being pushed. An unlicensed file is
+#    unlicensed by default, which is the one state nobody can act on.
+# ---------------------------------------------------------------------------
+tip=$(printf '%s\n' "$commits" | head -1)
+
+for f in $(git ls-tree -r --name-only "$tip" | grep -v '^LICENSE$'); do
+  git show "$tip:LICENSE" 2>/dev/null | grep -qF "$f" \
+    || flag "not named in LICENSE: $f"
+done
+
+for f in $(git ls-tree -r --name-only "$tip" \
+           | grep -E '^(starter-CLAUDE\.md|templates/.*\.md)$'); do
+  git show "$tip:$f" | grep -q SPDX \
+    || flag "no SPDX notice: $f"
+done
+
+# ---------------------------------------------------------------------------
+say ""
+if [ "$fail" -ne 0 ]; then
+  say "  push refused. Nothing has been published."
+  say ""
+  exit 1
+fi
+
+say "  clean — publishing"
+say ""
+exit 0

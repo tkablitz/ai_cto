@@ -79,6 +79,7 @@ Applies to:
     templates/eod-handoff.md
     templates/issues-log.md
     templates/phase-roadmap.md
+    templates/validation-strategy.md
 
 These are deliberately permissive. They exist to be copied into your own
 repositories and edited beyond recognition, and a scaffold that carries

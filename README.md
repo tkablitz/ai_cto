@@ -57,6 +57,7 @@ if you're here to write code — the first four steps are the whole job.
 | `templates/phase-roadmap.md` | Phase/epic planning doc, one per phase (§4.1) |
 | `templates/issues-log.md` | Findings log for systems you don't own (§3.1) |
 | `templates/architecture-review.md` | Structured review of someone else's design proposal |
+| `templates/validation-strategy.md` | Which validation answers which question, and where each is blind (§1.1, §2.5) |
 
 Every template uses `<angle-bracket placeholders>`. Fill them in and delete what you don't need.
 
@@ -79,6 +80,7 @@ pieces you have a use for:
 | `templates/eod-handoff.md` | Once work starts spanning more than a day |
 | `templates/phase-roadmap.md`, `templates/issues-log.md` | Only if you're leading the work |
 | `templates/architecture-review.md` | When someone hands you a design to review |
+| `templates/validation-strategy.md` | Once the suite is big enough that nobody can tell by reading whether it bites |
 
 **The guide is read, not copied.** Link to it from your repo if it helps; don't vendor it. The
 licensing follows the same line, and it matters in a commercial setting: `starter-CLAUDE.md` and

@@ -60,6 +60,14 @@ mechanism is decoration — an AI will agree with it warmly and then route aroun
 and the implementer apart; the pre-merge checklist in the Appendix asks "which test fails without
 this fix?"
 
+**The *T* is generic, and this is where TDD grows rather than gets replaced.** Test-first is the
+foundation; unit tests are only its first layer. Contract, integration, property-based, mutation,
+behavioral, guard, canary and restore-from-code proofs are all *tests* in the same sense — each
+answers one question the others are blind to, and each belongs at a different point in the lifecycle
+because cost and feedback latency differ. `templates/validation-strategy.md` lays the layers out
+with their blind spots stated, and Part 2 is the argument for why the blind spots matter more than
+the counts.
+
 ### 1.2 Gates, not vigilance
 
 - CI runs everything on every push. Not nightly. Not on demand.
@@ -310,6 +318,50 @@ and it will drift. Drift produces false confidence — green against your mock's
 surprised by the real one. Behavioral fidelity gets validated against the real thing, in a real
 environment. When tempted to add state to a test double, ask: *am I validating our connection code,
 or re-implementing their system?*
+
+### 2.5 "Isn't this just mutation testing?"
+
+It is the first question this part attracts, and it deserves a straight answer: **partly, and the
+part it doesn't cover is the dangerous part.**
+
+Mutation testing alters your source — flips a conditional, moves a boundary, deletes a statement —
+and checks whether any test notices. A surviving mutant is code whose behavior can change with the
+suite still green. That is §2.3's habit — *make every new assertion fail once, on purpose* —
+mechanized and applied to every assertion continuously instead of when someone remembers. By §1.2's
+logic that makes it a gate rather than vigilance, which is a straight upgrade. **Adopt it.**
+
+Against the five shapes it splits cleanly, and the split is the useful part:
+
+| Shape | Mutation testing |
+|---|---|
+| 1. Test asserts the defect is correct | **Confident false green** — mutate the fallback, the test goes red, mutant killed |
+| 2. Assertion weaker than its name | **Catches it** — mutate to another wrong value, the lazy assertion keeps passing |
+| 3. Fixture cannot express the failure | **Signals, misdiagnoses** — the mutant survives, but the fix looks like "add a test" |
+| 4. Pass condition satisfied by the bug | **Catches it** — mutate the feature away, the check stays green |
+| 5. Predicate matches a shape something else has | **Confident false green** — every mutant dies, score is clean |
+
+Shapes 2 and 4 are its home ground; it finds those more reliably than a reviewer will. Shape 3 it
+surfaces but points the wrong way, and a stubborn survivor in a hard-to-test region tends to get
+waived as an equivalent mutant.
+
+Shapes 1 and 5 are where it fails, and it fails *confidently* — producing a better score than a
+weaker suite would. The reason is structural:
+
+> **Mutation testing asks whether your tests are sensitive to changes in the code you wrote. It
+> cannot ask whether the code you wrote was the right code.** Where the tests faithfully encode a
+> misunderstood requirement, every mutant dies. A high score on a wrong specification is confident,
+> well-measured, and wrong.
+
+That is also why it is not a substitute for deriving tests from a specification. It runs after the
+implementation exists and takes it as the reference, so it can automate the *sensitivity* guarantee
+but never the *specification* one. Spec-driven development has the mirror weakness — a gap in the
+requirements is invisible to tests and implementation alike, because both were derived from it.
+Neither technique rescues the other; they fail in opposite directions, which is exactly why you run
+both.
+
+Treat surviving mutants as a review queue rather than a number to raise. The triage is the value.
+Layer placement, thresholds and blind spots for this and every other validation type are laid out in
+`templates/validation-strategy.md`.
 
 ---
 

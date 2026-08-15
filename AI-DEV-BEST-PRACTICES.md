@@ -561,11 +561,14 @@ If your tool has persistent memory, curate it:
   memory, because it's confidently retrieved.
 - **Memories are point-in-time observations.** Anything citing a file, function, or flag needs
   re-verification before you act on it.
-- **A memory that hard-codes a machine path is worse than one that hard-codes a fact**, because it
-  fails silently rather than visibly — and if memories get seeded into new projects, it re-seeds the
-  staleness into each one. A path that is right on one machine is wrong on every other, so
-  "correcting" it only moves which machine is broken. Store the identity that travels — a repository
-  URL, a package name — and resolve the local path at setup time instead.
+- **A memory that travels must not carry a copy of state that lives somewhere else.** Paths are the
+  obvious case: one that is right on one machine is wrong on every other, so "correcting" it only
+  moves which machine is broken. An *enumeration* fails identically and is easier to miss — a memory
+  listing the files a shared directory holds was accurate for exactly one day, until the directory
+  gained one. Both fail silently rather than visibly, and a seeded memory is precisely the artifact a
+  session trusts *instead of* going to look. Store the identity that travels — a repository URL, a
+  package name — and let the reader resolve the rest. Keep only what the source cannot convey: that
+  two runbooks run in a given order is real information; which files exist is not.
 
 ### 4.5 Full-stack restart per run
 
@@ -691,6 +694,32 @@ each datum honestly states its own age. Never fabricate samples to look busy.
 - Test-gaming — weakening an assertion to reach green
 - Confident agreement with a wrong premise you supplied
 - Aspirational-as-current documentation
+
+### 5.8 Running more than one session
+
+A second session for overflow is genuinely useful — one channel is prime, the other picks up what
+prime is too busy for. Two hazards, neither where people look for them.
+
+**Branch discipline buys nothing, because the conflict is on the filesystem rather than in git.** Two
+sessions sharing one working directory edit the same files with no lock, no warning, and no merge
+step where a conflict could surface. Git protects *history*; it has no opinion about a working tree
+two writers hold open. One session's uncommitted edit vanishes under the other's write and neither
+observes anything unusual.
+
+- **Separate working directories, not separate branches** — a worktree or a second clone per session.
+- If they must share a tree, **only one writes.** The other reads, reports, and hands changes to the
+  writer. Read-only is a real role, not a demotion.
+- **Ground-truth at every kickoff.** The sibling channel may have shipped while you weren't looking.
+
+**An approval request must name what it will change.** A human running several sessions holds one
+piece of context — *which channel am I in* — and will use it to interpret any request that doesn't
+supply its own. An approval raised inside one project's session, for a change to a different
+repository under different governance, gets read against the wrong target and granted. Nothing about
+the request looks wrong; it simply never says where it lands.
+
+> **Name the repository, the branch, and the governance in the request itself**, not in the
+> surrounding conversation. The reviewer's channel is not a substitute for the target, and it
+> diverges from it exactly when the request is unusual — which is when approval matters most.
 
 ---
 
@@ -907,6 +936,16 @@ a corrupt file both times — the model transcribes every byte, and loses roughl
 Error positions differed between attempts, so no amount of retrying converges.
 → **Binaries move by file path or by the user.** Always verify size or hash against the local file
 before declaring an upload done.
+
+**A process's environment is a snapshot, not a view of the system.**
+A session captured `PATH` at startup. A tool installed *during* that session was genuinely present on
+disk and genuinely absent from the environment the session could see, so every check reported "not
+installed" — correctly, about a stale copy of the world. Three separate diagnostics agreed, which
+read as convergent evidence; all three consulted the same inherited environment, so they shared one
+blind spot.
+→ **Ask the source, not the inherited copy** — the package manager or the filesystem, never `PATH`.
+And **agreement between checks is evidence only if the checks are independent.** Three signals
+derived from one snapshot are one signal reported three times.
 
 **A test framework that isn't installed on the CI agent gates nothing.**
 A whole category of script tests sat in the repo, ran locally, and were silently absent from CI.

@@ -542,11 +542,16 @@ epic **immediately** — otherwise the future session rediscovers it from scratc
 
 Sessions span days and other people ship overnight. Start each working day by:
 
-1. **Pulling every repo** — yours and the ones you only read.
-2. **Re-probing the deployed state.** Never trust yesterday's notes about today's production. Ask
+1. **Reading the shared coordination record** — if more than one agent operates on shared material.
+   Another channel may have deleted a branch, moved a tree, changed a rule you follow, or left
+   something addressed to you. Do this *before* pulling, so the pull confirms what you were told
+   rather than surprising you with it.
+2. **Pulling every repo** — yours and the ones you only read. Including the repo that holds your
+   working agreements, which is the one nobody thinks to pull because it isn't the code.
+3. **Re-probing the deployed state.** Never trust yesterday's notes about today's production. Ask
    the live system what version it is.
-3. **Running the standing canaries** — the small automated proof that the critical path still works.
-4. **Reporting drift** before starting the day's work. If nothing changed, say so explicitly.
+4. **Running the standing canaries** — the small automated proof that the critical path still works.
+5. **Reporting drift** before starting the day's work. If nothing changed, say so explicitly.
 
 Formalize this as a committed runbook with a state file for day-over-day deltas, so it's mechanical
 rather than remembered.
@@ -562,6 +567,14 @@ promise, not a record. A crash recovery on one machine restored a snapshot that 
 day old rather than minutes old, and took more than a day of work with it — work the handoff
 faithfully described and could not restore. Un-pushed work is not work, and an AI-assisted day
 produces enough of it to make that expensive.
+
+**A handoff that names someone else's action has to reach them.** One file per day is the right shape
+for the next session in *your* seat — but a file is not a channel. If the handoff says "waiting on X"
+and X is another agent or another person, that item belongs where **they** look, with the file
+carrying a pointer to it. Otherwise the handoff is a diary: accurate, durable, and read by nobody who
+could act on it. Symmetrically, whatever you wrote to shared state today — a branch you deleted, a
+tree you moved, a rule you changed — goes there too, because the next channel's kickoff (§4.2, step
+one) is reading that record and not your file.
 
 ### 4.4 Memory discipline
 

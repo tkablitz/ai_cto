@@ -574,6 +574,17 @@ If your tool has persistent memory, curate it:
   memory, because it's confidently retrieved.
 - **Memories are point-in-time observations.** Anything citing a file, function, or flag needs
   re-verification before you act on it.
+- **A memory store shared by two agents cannot hold the words "this channel".** Memory is usually
+  keyed to the working directory, so two sessions operating on one workspace share one store — and
+  every first-person memory in it is false for whichever session reads it second, while being loaded
+  into that session's context automatically and silently. Worse, a memory store has no history, no
+  recorded author, and no merge step where a collision could surface: the second writer wins and the
+  first version is simply gone. The only signal that exists is a tool refusing a stale write, and
+  that fires only when the same session happened to read the file earlier — a fresh session writes
+  straight over. **The collision rules that apply to code apply harder here, not more loosely**,
+  because none of version control's safety net is underneath it. Give each agent its own working
+  directory and it gets its own store; separating shared facts from identity facts by convention is
+  the fallback, and it is remembered rather than enforced.
 - **A memory that travels must not carry a copy of state that lives somewhere else.** Paths are the
   obvious case: one that is right on one machine is wrong on every other, so "correcting" it only
   moves which machine is broken. An *enumeration* fails identically and is easier to miss — a memory

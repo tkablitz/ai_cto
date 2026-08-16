@@ -157,9 +157,14 @@ done
 # ---------------------------------------------------------------------------
 # 3. Licensing, checked against the tip being pushed. An unlicensed file is
 #    unlicensed by default, which is the one state nobody can act on.
+#
+#    `tip` is the ref's actual head, captured during range computation above.
+#    It used to be recomputed here as `head -1` of $commits — but $commits is
+#    sort -u'd, so that was the lexically smallest SHA rather than the tip.
+#    Correct for a single-commit push, which is why it survived; wrong for
+#    every other, and it silently made these checks inspect an arbitrary
+#    commit's tree.
 # ---------------------------------------------------------------------------
-tip=$(printf '%s\n' "$commits" | head -1)
-
 for f in $(git ls-tree -r --name-only "$tip" | grep -v '^LICENSE$'); do
   git show "$tip:LICENSE" 2>/dev/null | grep -qF "$f" \
     || flag "not named in LICENSE: $f"

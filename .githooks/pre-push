@@ -73,6 +73,8 @@ fi
 # Work out which commits this push would actually publish, per ref.
 # ---------------------------------------------------------------------------
 commits=""
+base=""
+tip=""
 while read -r _local_ref local_sha _remote_ref remote_sha; do
   case "$local_sha" in
     *[!0]*) ;;          # a real sha
@@ -80,9 +82,18 @@ while read -r _local_ref local_sha _remote_ref remote_sha; do
   esac
 
   case "$remote_sha" in
-    *[!0]*) range=$(git rev-list "$remote_sha..$local_sha") ;;
-    *)      range=$(git rev-list "$local_sha" --not --remotes) ;;
+    *[!0]*) range=$(git rev-list "$remote_sha..$local_sha"); b="$remote_sha" ;;
+    *)      range=$(git rev-list "$local_sha" --not --remotes)
+            oldest=$(printf '%s\n' $range | grep . | tail -1)
+            b=$(git rev-parse "$oldest^" 2>/dev/null || true)
+            ;;
   esac
+
+  # Keep the first base/tip seen. Pushes here are single-ref in practice; if a
+  # multi-ref push ever happens the net-diff check below simply covers one of
+  # them, which is why the per-commit checks above are the primary gate.
+  [ -n "$base" ] || base="$b"
+  [ -n "$tip" ] || tip="$local_sha"
 
   commits="$commits $range"
 done
@@ -159,6 +170,32 @@ for f in $(git ls-tree -r --name-only "$tip" \
   git show "$tip:$f" | grep -q SPDX \
     || flag "no SPDX notice: $f"
 done
+
+# ---------------------------------------------------------------------------
+# 4. A rev stamp must move when the file it stamps moves.
+#
+# The README tells readers to copy these files out. Their only way to tell a
+# stale copy from a current one is the `rev` date in the notice, and a stamp
+# maintained by hand is a copy of state that lives elsewhere — the exact defect
+# §4.4 warns about. So it is enforced rather than remembered.
+#
+# The test is CO-MOVEMENT across the whole push, not per commit: a series that
+# edits content in one commit and bumps the stamp in the next is correct, and a
+# per-commit check would fail it. A gate that fires on a healthy path is worse
+# than no gate — §1.2.
+# ---------------------------------------------------------------------------
+if [ -n "$base" ]; then
+  for f in $(git diff --name-only "$base..$tip" -- starter-CLAUDE.md 'templates/*.md' 2>/dev/null); do
+    # A file added in this push has no prior stamp to move; the SPDX check above
+    # already requires it to carry one.
+    git cat-file -e "$base:$f" 2>/dev/null || continue
+
+    if ! git diff "$base..$tip" -- "$f" | grep -q '^[+-].*SPDX-License-Identifier'; then
+      flag "content changed without a rev bump: $f"
+      say  "           readers cannot tell their copy is stale — update the rev date in its notice"
+    fi
+  done
+fi
 
 # ---------------------------------------------------------------------------
 say ""

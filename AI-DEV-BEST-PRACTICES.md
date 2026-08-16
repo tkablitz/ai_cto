@@ -75,6 +75,19 @@ the counts.
   before promotion. Red gate means no ship, mechanically.
 - **A red gate is a signal to strengthen tests, not to retry until green.** "Re-run it" is the
   single most corrosive habit available to a team with a flaky gate.
+- **A gate that fires when nothing is wrong is how that habit forms.** Flakiness is the familiar
+  cause. The worse one is a check that is *deterministically* wrong on the healthy path, because
+  reliable noise is easier to learn to ignore than intermittent noise. One migration gate asked
+  whether any local branch held a commit no remote had — the right question, which under a
+  squash-merge workflow answers *yes* on every healthy clone forever, since squashing gives the
+  merged commit a new SHA. Every alarm it raised would have been false, and the habit of clearing
+  those without looking is precisely what let a genuinely stranded branch sit unnoticed for six
+  days. The fix is rarely to delete the check, which was asking something worth asking; it is a
+  second, cheaper tier that separates the benign answer from the real one, so the first tier's
+  alarms become cheap to clear rather than expensive to investigate.
+
+> **Before adopting a check, run it against a known-good state.** If it fires, you have not built a
+> gate — you have built a training exercise in ignoring gates.
 - **No manual approval gates in the pipeline.** Merge to trunk, green CI + CD, it ships. Safety
   lives in the depth of the gates, not in a human clicking approve. This is the DevOps Handbook's
   First Way: build quality in, prefer peer review over change-approval boards.

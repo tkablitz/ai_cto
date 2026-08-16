@@ -102,4 +102,4 @@ Every "Complete" carries its evidence — the command, link, or run ID that prov
 the failures behind each one. Process enforcement comes from the Superpowers skill library —
 <https://github.com/obra/superpowers>.*
 
-<!-- SPDX-License-Identifier: MIT · © 2026 Torsten Kablitz · https://github.com/tkablitz/ai_cto -->
+<!-- SPDX-License-Identifier: MIT · rev 2026-08-03 · © 2026 Torsten Kablitz · https://github.com/tkablitz/ai_cto -->

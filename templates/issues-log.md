@@ -38,4 +38,4 @@ recorded but never substitute for the system fix.
 - **Context:** <what's coming that makes this matter>
 - **Ask:** <options, ranked>
 
-<!-- SPDX-License-Identifier: MIT · © 2026 Torsten Kablitz · https://github.com/tkablitz/ai_cto -->
+<!-- SPDX-License-Identifier: MIT · rev 2026-08-03 · © 2026 Torsten Kablitz · https://github.com/tkablitz/ai_cto -->

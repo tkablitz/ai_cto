@@ -214,4 +214,4 @@ Ask these of the strategy, not of individual tests. The per-test questions are i
 Statuses and the five criteria for **Complete** are defined in `templates/definition-of-done.md`.
 Every "Complete" carries the evidence that proves it.
 
-<!-- SPDX-License-Identifier: MIT · © 2026 Torsten Kablitz · https://github.com/tkablitz/ai_cto -->
+<!-- SPDX-License-Identifier: MIT · rev 2026-08-13 · © 2026 Torsten Kablitz · https://github.com/tkablitz/ai_cto -->

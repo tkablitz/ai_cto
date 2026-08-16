@@ -89,6 +89,20 @@ while the guide is CC BY-NC. Copy the scaffolds freely — leave the guide here.
 
 Take the rest when you hit the need for it, not before. That is §1.11 applied to this package.
 
+**Telling a stale copy from a current one.** Once a scaffold is in your repo it stops receiving
+updates — nothing here can reach it, and a copy that silently diverges is the problem this package
+spends a whole section on. So each copyable file carries a `rev` date in the licence notice at the
+end:
+
+```html
+<!-- SPDX-License-Identifier: MIT · rev 2026-08-15 · © 2026 Torsten Kablitz · … -->
+```
+
+Compare your copy's `rev` against the one here to see whether yours is behind, then diff if it is.
+The date moves only when the file's substance changes, and a pre-push hook in this repo refuses a
+change that edits a scaffold without moving its `rev` — because a version stamp maintained by hand
+is exactly the sort of hand-maintained copy of state that §4.4 tells you not to trust.
+
 ---
 
 ## Read this before you adopt §1.2

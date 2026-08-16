@@ -21,4 +21,4 @@
 - Roadmap tracker updated. Memories current: <files touched>. 
 - Op notes: <sharp-edged environment facts learned today, one line each>.
 
-<!-- SPDX-License-Identifier: MIT · © 2026 Torsten Kablitz · https://github.com/tkablitz/ai_cto -->
+<!-- SPDX-License-Identifier: MIT · rev 2026-08-03 · © 2026 Torsten Kablitz · https://github.com/tkablitz/ai_cto -->

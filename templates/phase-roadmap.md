@@ -37,4 +37,4 @@ made early; scope sketch; gotchas already known; alternatives explicitly rejecte
 - [ ] **Epic 2 — `<name>`** — …
 - [ ] **Exit gate** — <each box + evidence link when run>
 
-<!-- SPDX-License-Identifier: MIT · © 2026 Torsten Kablitz · https://github.com/tkablitz/ai_cto -->
+<!-- SPDX-License-Identifier: MIT · rev 2026-08-03 · © 2026 Torsten Kablitz · https://github.com/tkablitz/ai_cto -->

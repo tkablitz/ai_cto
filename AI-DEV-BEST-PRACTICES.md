@@ -271,7 +271,7 @@ mind.
 > write the exclusion list anyway — "today" is the part that expires. Prefer naming the cases you
 > are ruling *out* over widening the positive test.
 
-### 2.2 Three more that look like passes
+### 2.2 Four more that look like passes
 
 **A conditional gate can be skipped many times in a row, and its skips look like passes.** A
 post-deploy assertion only executed when a live workload existed at deploy time. Three consecutive
@@ -302,6 +302,19 @@ clothing: *would this check still pass if the feature were entirely absent?* On 
 > rule guaranteeing the property exists and says what you think it says. The property assertion
 > catches a real violation where one can occur; the mechanism assertion fails everywhere, including
 > on the runner that cannot see the property. Neither is sufficient alone.
+
+**A check can return success for the command while the thing it checked failed.** An automated CI
+verification reported a red run as green. The flag carrying the run's conclusion into the exit code
+had been omitted, so the exit code described the watch rather than the run — and watching a failed
+run is a successful watch. Piping the command discards the exit code regardless, since a pipeline
+reports its last stage. Both forms print that the run failed, and return zero. Then the obvious
+repair inherits the defect: reading the run's conclusion instead reports an *in-progress* run as
+passing, because a run still executing has no conclusion at all.
+
+> **Ask of any check: what question did it actually answer?** "The command succeeded" and "the thing
+> it inspected passed" are different questions that agree just often enough to be trusted. Read the
+> state you care about, require that state to be terminal before reading it, and treat not-yet-known
+> as a third outcome — a two-state check cannot report a three-state world.
 
 ### 2.3 The review technique
 
@@ -1070,5 +1083,5 @@ files are MIT, so you can paste those into your repositories with no strings. Fu
 `LICENSE`.*
 
 *Shipped alongside this guide: `README.md` (start here), `starter-CLAUDE.md` (drop-in project rules
-file), and `templates/` — the Definition of Done, handoff, roadmap, issues-log, and
-architecture-review scaffolds referenced throughout.*
+file), and `templates/` — the scaffolds referenced throughout, listed with their purposes in
+`README.md`.*

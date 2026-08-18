@@ -611,6 +611,7 @@ carrying a pointer to it. Otherwise the handoff is a diary: accurate, durable, a
 could act on it. Symmetrically, whatever you wrote to shared state today — a branch you deleted, a
 tree you moved, a rule you changed — goes there too, because the next channel's kickoff (§4.2, step
 one) is reading that record and not your file.
+
 **And the record is what propagates a decision — not the human everyone reports to.** Once several
 agents run under one owner, the tempting shortcut is for that person to paste each decision into the
 others. It fails three ways. **It goes stale in transit:** a relayed verification instruction carried

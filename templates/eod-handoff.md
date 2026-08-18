@@ -7,11 +7,11 @@
 1. `<Deliverable>` → <file/commit/version/pipeline-run>. <One line on what the gate proved.>
 2. …
 
-## Daily kickoff findings (`<date>`)
-- <Canary/probe results vs yesterday; drift in the client's system; roster/access changes.>
+## Kickoff findings (`<date>`)
+- <Canary/probe results vs the last run; drift in the client's system; roster/access changes.>
 
-## Open items → TOMORROW
-1. **Daily kickoff** (`<date+1>`). Watch: <specific metrics/trends with yesterday's values>.
+## Open items → NEXT SESSION
+1. **Next kickoff.** Watch: <specific metrics/trends with this run's values, to compare against>.
 2. <Next epic / next concrete step, with pointers to its spec/plan.>
 3. **Backlog (non-blocking):** <lettered/numbered small items with one-line context each.>
 
@@ -30,4 +30,4 @@ half of the handoff that a file cannot deliver — see §4.3.
 - Roadmap tracker updated. Memories current: <files touched>. 
 - Op notes: <sharp-edged environment facts learned today, one line each>.
 
-<!-- SPDX-License-Identifier: MIT · rev 2026-08-16 · © 2026 Torsten Kablitz · https://github.com/tkablitz/ai_cto -->
+<!-- SPDX-License-Identifier: MIT · rev 2026-08-18 · © 2026 Torsten Kablitz · https://github.com/tkablitz/ai_cto -->

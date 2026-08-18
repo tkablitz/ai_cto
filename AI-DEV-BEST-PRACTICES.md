@@ -551,9 +551,11 @@ highest-leverage habit in this whole guide is *reading the plan carefully*.
 close. When a decision gets made mid-phase about future work, write it into the roadmap under that
 epic **immediately** — otherwise the future session rediscovers it from scratch.
 
-### 4.2 Daily kickoff
+### 4.2 Session kickoff
 
-Sessions span days and other people ship overnight. Start each working day by:
+**The unit is the session, not the calendar day.** Sessions span days, other people ship while you
+are not running, and a session that has been idle for three days needs this *more* than one that ran
+yesterday, not less. Start every session by:
 
 1. **Reading the shared coordination record** — if more than one agent operates on shared material.
    Another channel may have deleted a branch, moved a tree, changed a rule you follow, or left
@@ -582,9 +584,17 @@ minutes earlier — the check measured arrival order and reported it as complian
 instant is not absence in a day. Name the cutoff, or you publish your own timing as someone else's
 behaviour.
 
+**But a check-in record shows when someone last ran — never whether they should have.** The
+temptation once the record exists is to read a stale entry as a lapse. Resist it: in most multi-agent
+setups, presence is only owed by an agent something invoked, nobody works every day, and a secondary
+agent's resting state is idle for days at a stretch while a primary runs several times in one. **A
+stated window does not fix this** — it is the same assumption wearing a timestamp, since a window only
+detects a miss if presence was owed in it. Read the field as *last time this ran*, draw no inference
+from its age, and get liveness signals from whoever owns the work rather than from silence.
+
 ### 4.3 End-of-day handoff
 
-One file per day: what shipped (with versions and run IDs), what's open, and **exact resume
+One file per working session: what shipped (with versions and run IDs), what's open, and **exact resume
 pointers**. The next session starts by reading it. This is what makes multi-day AI work coherent —
 context windows end, and the handoff is what survives.
 
@@ -594,7 +604,7 @@ day old rather than minutes old, and took more than a day of work with it — wo
 faithfully described and could not restore. Un-pushed work is not work, and an AI-assisted day
 produces enough of it to make that expensive.
 
-**A handoff that names someone else's action has to reach them.** One file per day is the right shape
+**A handoff that names someone else's action has to reach them.** One file per session is the right shape
 for the next session in *your* seat — but a file is not a channel. If the handoff says "waiting on X"
 and X is another agent or another person, that item belongs where **they** look, with the file
 carrying a pointer to it. Otherwise the handoff is a diary: accurate, durable, and read by nobody who
@@ -1060,7 +1070,8 @@ green build) was accepted as proof of a mechanism nobody had actually checked.
 - [ ] Observable and documented
 - [ ] Evidence attached — the command, link, or run ID that proves it
 
-### Daily kickoff
+### Session kickoff
+- [ ] Read the shared coordination record — before pulling, if others work on this material
 - [ ] Pull every repo, including read-only ones
 - [ ] Re-probe deployed versions from the live systems
 - [ ] Run the standing canaries

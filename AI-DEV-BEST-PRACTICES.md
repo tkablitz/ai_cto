@@ -611,6 +611,24 @@ carrying a pointer to it. Otherwise the handoff is a diary: accurate, durable, a
 could act on it. Symmetrically, whatever you wrote to shared state today — a branch you deleted, a
 tree you moved, a rule you changed — goes there too, because the next channel's kickoff (§4.2, step
 one) is reading that record and not your file.
+**And the record is what propagates a decision — not the human everyone reports to.** Once several
+agents run under one owner, the tempting shortcut is for that person to paste each decision into the
+others. It fails three ways. **It goes stale in transit:** a relayed verification instruction carried
+a file's line count that had already changed, and would have produced a false failure on the machine
+that received it. **It loses its qualifiers:** a briefing that prescribed a path *with an escape
+hatch* arrived without the hatch, so a prescription became an assertion about an environment nobody
+had checked — and two of its claims were wrong. **And it hides readership:** routing through a person
+tells you a message was sent, never who read it, so an agent that disagreed is indistinguishable from
+one that never saw it. Put the change in the record and in the commit, and let each agent collect it
+when it next runs. **Keep the exception explicit** — if something genuinely cannot wait for another
+agent's next start, say so and say why, and let a human decide to interrupt. Naming it as an
+escalation is what keeps escalation rare enough to mean something.
+
+> **Then give the record a catch-up read.** If sessions can be idle for days, the returning one
+> should not have to reconstruct a week from a long thread. A short dated log — one line per decision
+> with the commit that carries it, newest first — costs a line per change and turns "what did I
+> miss?" into a bounded read. Keep it a summary that points at commits rather than a second copy of
+> the reasoning, or it becomes one more thing that goes stale.
 
 ### 4.4 Memory discipline
 

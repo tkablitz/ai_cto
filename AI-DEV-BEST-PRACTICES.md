@@ -564,10 +564,23 @@ Sessions span days and other people ship overnight. Start each working day by:
 3. **Re-probing the deployed state.** Never trust yesterday's notes about today's production. Ask
    the live system what version it is.
 4. **Running the standing canaries** — the small automated proof that the critical path still works.
-5. **Reporting drift** before starting the day's work. If nothing changed, say so explicitly.
+5. **Reporting drift somewhere durable** before starting the day's work — on the shared record, not
+   only to whoever happens to be in the room. If nothing changed, say so explicitly: a kickoff that
+   found nothing and a kickoff nobody ran are otherwise identical silence.
 
 Formalize this as a committed runbook with a state file for day-over-day deltas, so it's mechanical
 rather than remembered.
+
+**A record you read once a day is a snapshot of something that changes hourly.** Five comments landed
+on a shared coordination record within 33 minutes of one channel's daily read, one of them addressed
+to that channel. The read establishes what changed overnight; it says nothing about what is true when
+you act four hours later. **Re-read before acting on anything cross-channel, and again at close.**
+
+**And a synchronized check across actors on their own clocks needs a stated window.** A "did everyone
+check in today?" test, evaluated at one instant, marked a channel absent that had checked in 27
+minutes earlier — the check measured arrival order and reported it as compliance. Absence at an
+instant is not absence in a day. Name the cutoff, or you publish your own timing as someone else's
+behaviour.
 
 ### 4.3 End-of-day handoff
 

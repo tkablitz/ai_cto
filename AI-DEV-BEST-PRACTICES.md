@@ -243,12 +243,14 @@ of string manipulation and cannot see that a tool was missing. The alternative w
 nobody can ask why it was not taken. The code does not carry the constraint that shaped it.
 
 > **When you reach for a tool that isn't there, say so.** First check whether it exists under another
-> name — CLIs often embed the thing you want, and a runtime you already have may cover it. If it is
-> genuinely absent and the workaround costs more than a few lines or would recur, **ask**, naming
-> what you wanted it for, what going without costs, and what adding it costs: provenance, licence,
-> and attack surface are the owner's call, not the agent's. **Never install it yourself**, especially
-> on a machine that touches someone else's code. Meanwhile keep working and mark the fallback
-> provisional; stop only if shipping the fallback is worse than waiting.
+> name — CLIs often embed the thing you want, and a runtime you already have may cover it. **Check
+> that it runs, not merely that it resolves**: a 121-byte Windows Store alias answers `command -v`,
+> prints an install hint, and exits `0` (Part 7). If it is genuinely absent and the workaround costs
+> more than a few lines or would recur, **ask**, naming what you wanted it for, what going without
+> costs, and what adding it costs: provenance, licence, and attack surface are the owner's call, not
+> the agent's. **Never install it yourself**, especially on a machine that touches someone else's
+> code. Meanwhile keep working and mark the fallback provisional; stop only if shipping the fallback
+> is worse than waiting.
 
 **Record the answer where the next session will find it — refusals as much as approvals.** A "denied,
 because X" entry costs one line and stops three agents rediscovering the same dead end. Otherwise

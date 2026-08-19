@@ -223,6 +223,41 @@ architecture and you'll get a thirteen-layer reference diagram. The test per com
 service replace code we would otherwise write, for a need we have now?* If no, defer it with a
 written **pull-trigger** ("adopt when X") so the decision is revisitable instead of relitigated.
 
+### 1.12 A missing tool is a question, not a constraint
+
+An agent reached for a standard JSON tool, found it absent, and hand-rolled the manipulation instead.
+Another reached for a scripting runtime, found it missing, and took a longer path. Both produced
+working results. Neither mentioned it. Installing either tool would have taken the owner a minute,
+and he would have said yes.
+
+**The instinct was right and the silent redirect was wrong**, but the interesting part is *why* this
+happens to agents specifically and not to the developers they work alongside. A developer who hits a
+missing tool feels something — tedium — and that feeling is what produces the install. It is not a
+cost-benefit calculation; it is that hand-rolling the thing is *annoying*. **An agent feels none of
+it.** Writing sixty lines costs it exactly what writing three costs it, so the pressure that normally
+drives tooling investment is the one signal the agent structurally cannot generate. Left alone, the
+environment never improves and the codebase quietly fills with workarounds nobody chose on the merits.
+
+**The second cost is that the workaround is invisible in the artifact.** A reviewer sees sixty lines
+of string manipulation and cannot see that a tool was missing. The alternative was never recorded, so
+nobody can ask why it was not taken. The code does not carry the constraint that shaped it.
+
+> **When you reach for a tool that isn't there, say so.** First check whether it exists under another
+> name — CLIs often embed the thing you want, and a runtime you already have may cover it. If it is
+> genuinely absent and the workaround costs more than a few lines or would recur, **ask**, naming
+> what you wanted it for, what going without costs, and what adding it costs: provenance, licence,
+> and attack surface are the owner's call, not the agent's. **Never install it yourself**, especially
+> on a machine that touches someone else's code. Meanwhile keep working and mark the fallback
+> provisional; stop only if shipping the fallback is worse than waiting.
+
+**Record the answer where the next session will find it — refusals as much as approvals.** A "denied,
+because X" entry costs one line and stops three agents rediscovering the same dead end. Otherwise
+every session on that machine pays the tax again, independently, and none of them knows the others
+did.
+
+**And if you do route around a missing tool without asking, say so in the handoff.** That is the
+minimum: the decision becomes visible to someone who can overrule it.
+
 ---
 
 ## Part 2 — Why a green suite is weak evidence

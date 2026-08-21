@@ -1,7 +1,7 @@
 # AI-Assisted Development — starter package
 
 Everything you need to run an AI coding assistant on real software without it quietly wrecking
-things. One guide, a drop-in config file, five templates.
+things. One guide, a drop-in config file, and a set of templates.
 
 The foundations are **DevOps and TDD**. Every other practice here exists to keep those two honest
 when a machine is producing code faster than anyone can read it.
@@ -57,6 +57,7 @@ if you're here to write code — the first four steps are the whole job.
 | `templates/phase-roadmap.md` | Phase/epic planning doc, one per phase (§4.1) |
 | `templates/issues-log.md` | Findings log for systems you don't own (§3.1) |
 | `templates/architecture-review.md` | Structured review of someone else's design proposal |
+| `templates/channel-charter.md` | What a long-lived session owns, and how to split one that shares a directory |
 | `templates/validation-strategy.md` | Which validation answers which question, and where each is blind (§1.1, §2.5) |
 
 Every template uses `<angle-bracket placeholders>`. Fill them in and delete what you don't need.
@@ -79,6 +80,7 @@ pieces you have a use for:
 | `templates/definition-of-done.md` | Day one. Cheapest way to stop "done" from drifting |
 | `templates/eod-handoff.md` | Once work starts spanning more than a day |
 | `templates/phase-roadmap.md`, `templates/issues-log.md` | Only if you're leading the work |
+| `templates/channel-charter.md` | The moment a second session starts, or a first one forks |
 | `templates/architecture-review.md` | When someone hands you a design to review |
 | `templates/validation-strategy.md` | Once the suite is big enough that nobody can tell by reading whether it bites |
 

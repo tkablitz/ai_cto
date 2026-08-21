@@ -80,7 +80,7 @@ they must not carry an employer or client domain.
 ## What this repository is
 
 A licensed package teaching AI-assisted software development with DevOps and TDD as the enforced
-foundations. One guide, a drop-in rules file, five templates. See `README.md`.
+foundations. One guide, a drop-in rules file, and the templates the guide refers to. See `README.md`.
 
 - `AI-DEV-BEST-PRACTICES.md` — the guide. The primary artifact.
 - `starter-CLAUDE.md` — the template readers copy into *their* repos. Not this file.

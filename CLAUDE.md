@@ -45,6 +45,24 @@ exercised and then forgotten.
 `git push --no-verify` bypasses it, as it bypasses any hook. That is git's design and cannot be
 prevented from inside the hook.
 
+**To prove the gate is real, use a throwaway branch — never `main`.** The hook scans the whole range
+being pushed, not just the tip, so a violation committed and then *reverted* still reds it: the
+revert adds a commit, it does not remove one, and the branch stays unpushable until the history is
+rewritten. Verified 2026-08-21 — a reverted violation, gone from the tip with a clean working tree,
+still blocked with exit 1. So commit the violation on a throwaway branch, hand the hook its stdin
+directly instead of pushing, and delete the branch after:
+
+```bash
+printf 'refs/heads/main %s refs/heads/main %s\n' "$(git rev-parse HEAD)" "$(git rev-parse origin/main)" \
+  | sh .githooks/pre-push origin "$(git remote get-url origin)"
+```
+
+**Save the output — it is the only evidence that survives.** A CI gate leaves a run record attached
+to a commit that exists on no branch afterwards; a local hook leaves nothing at all. Delete the
+branch and the proof goes with it unless the text was captured. *(The procedure was earned by a
+history-auditing CI job elsewhere that poisoned its own `main` proving its red the usual way — break
+it, revert, expect green. The missing run record is the part specific to a hook.)*
+
 **Scan the history, not just the working tree.** Deleting a file in a later commit does not
 unpublish it — if the commit that *added* it gets pushed, the blob is public forever and
 `git show <sha>:<path>` retrieves it. A clean `git status` proves nothing about what a push

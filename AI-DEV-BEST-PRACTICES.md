@@ -680,16 +680,13 @@ If your tool has persistent memory, curate it:
 - **Memories are point-in-time observations.** Anything citing a file, function, or flag needs
   re-verification before you act on it.
 - **A memory store shared by two agents cannot hold the words "this channel".** Memory is usually
-  keyed to the working directory, so two sessions operating on one workspace share one store — and
-  every first-person memory in it is false for whichever session reads it second, while being loaded
-  into that session's context automatically and silently. Worse, a memory store has no history, no
-  recorded author, and no merge step where a collision could surface: the second writer wins and the
-  first version is simply gone. The only signal that exists is a tool refusing a stale write, and
-  that fires only when the same session happened to read the file earlier — a fresh session writes
-  straight over. **The collision rules that apply to code apply harder here, not more loosely**,
-  because none of version control's safety net is underneath it. Give each agent its own working
-  directory and it gets its own store; separating shared facts from identity facts by convention is
-  the fallback, and it is remembered rather than enforced.
+  keyed to the working directory, so two sessions on one workspace share one store, and every
+  first-person memory in it is false for whichever reads it second. **The collision rules that apply
+  to code apply harder here, not more loosely**, because none of version control's safety net is
+  underneath: no history, no recorded author, no merge step where a collision could surface. The only
+  signal that exists is a tool refusing a stale write, and it fires only when the same session
+  happened to read the file earlier — a fresh session writes straight over. **§5.9 is the fix, and
+  the procedure for undoing it once it has happened.**
 - **A memory that travels must not carry a copy of state that lives somewhere else.** Paths are the
   obvious case: one that is right on one machine is wrong on every other, so "correcting" it only
   moves which machine is broken. An *enumeration* fails identically and is easier to miss — a memory
@@ -836,6 +833,7 @@ two writers hold open. One session's uncommitted edit vanishes under the other's
 observes anything unusual.
 
 - **Separate working directories, not separate branches** — a worktree or a second clone per session.
+  This is the whole of §5.9, which also covers what the directory silently decides for you.
 - If they must share a tree, **only one writes.** The other reads, reports, and hands changes to the
   writer. Read-only is a real role, not a demotion.
 - **Ground-truth at every kickoff.** The sibling channel may have shipped while you weren't looking.
@@ -849,6 +847,114 @@ the request looks wrong; it simply never says where it lands.
 > **Name the repository, the branch, and the governance in the request itself**, not in the
 > surrounding conversation. The reviewer's channel is not a substitute for the target, and it
 > diverges from it exactly when the request is unusual — which is when approval matters most.
+
+### 5.9 A channel owns its directory
+
+A **channel** is a session that outlives the task it started on. It accumulates state that only makes
+sense as its own: memories written in the first person, a working tree mid-edit, a branch checked
+out, a handoff addressed to its own next run. The directory is where all of that lives — and it is
+also the key that names it.
+
+**The directory choice and the memory choice are one decision, and the second half is invisible.**
+Persistent memory is keyed to the working directory path, so two channels in one directory get one
+store, by construction, with no setting that separates them. Nobody decides to share memory; they
+decide a directory, and the sharing arrives attached. Measured, the key is that path with its
+punctuation flattened — the colon dropped, separators and **underscores alike** collapsed to
+hyphens. That last one quietly breaks any lookup written against the directory's real name, and it
+breaks it in the shape a caller is least likely to check: a filter matching the literal project name
+returns an **empty set rather than an error**, which reads as "no such store" instead of "wrong key."
+A shell glob on the same name does at least fail loudly — so whether this bites you depends on which
+tool you reached for, not on whether you were careful.
+
+**The same flattening makes the key non-injective, which is worse than a broken lookup.** If
+underscores and hyphens both become hyphens, then `…/my_project` and `…/my-project` produce the
+*same* key: two channels that deliberately chose **different** directories, silently sharing one
+store. Every mitigation in this section assumes the sharing is visible as a shared path, and this
+case has none. The collapse is measured; the end-to-end collision is a deduction from it and has not
+been run — check your own tree for sibling names that differ only by that character.
+
+**Most shared directories were never chosen — but not because nobody decided.** The forking decision
+gets made, deliberately and often in writing; it is about *what the new channel will work on*. The
+directory is not part of that sentence, so it inherits silently even when the split itself was
+careful. One measured instance: a fork created with a written rationale for the division of labour,
+sharing a store with its parent for seven days, with no line anywhere choosing that. Ten memory
+files in the shared store, **six of them belonging to one channel and four to the other**, every one
+read into both contexts on every run.
+
+**Every first-person memory in a shared store is false for whichever channel reads it second** —
+loaded automatically, silently, and carrying exactly the authority of a true one. Not a hypothetical:
+an index entry reading *"this channel is X, owner of both repositories"* was loaded every run into a
+fork that owns nothing, and that fork reports **having had to consciously override it** to avoid
+announcing itself under the wrong name on a shared record. The store told it who it was. A separate
+roster lookup was the only thing in the way.
+
+**The exposure is not symmetric, and it is predictable.** Of the six memories belonging to the
+forked channel, **zero** were false for the parent — they asserted facts about the work and the
+world, not about the writer. All the damage came from the memories a channel wrote *about itself*.
+So the rule is not "both channels are equally at risk"; it is **whoever writes in the first person
+is the one who poisons the other's context.**
+
+**The index is where the collision happens.** The memory files are partitioned by name and rarely
+contend; the index that lists them is touched by *every* write. Measured: two channels wrote to one
+store **two minutes and fifty seconds apart**, on an ordinary evening, neither aware of the other.
+Nothing collided that night. Had both added a memory in that window, one write would have silently
+replaced the other — no merge step, no recorded author, no history to recover from, and no symptom.
+
+**And provenance does not survive, which is the part no later effort can repair.** Where a store
+stamps an origin id, that stamp is metadata on a file any writer can rewrite. Measured in one store
+of ten: **two files carried no stamp at all**, both written through a shell redirect rather than the
+memory tool — and one of those two *had* a stamp until it was rewritten wholesale to add a line.
+**From the file, a stamp that was deleted and a stamp that never existed are identical.**
+
+Worse, a stamp that *does* survive still answers the wrong question. In the same store, a file of
+plainly outbound material carried the parent channel's id — correctly, because it was written the
+day *before* the fork existed. **Provenance records which process wrote a file; a split needs to know
+which channel owns it, and those diverge the moment a fork happens, retroactively, for everything
+written before it.** Ownership has to be decided from content, by the channels themselves. Which is
+an argument for splitting before there is enough content to have to.
+
+**Sharing the working tree is worse than sharing the store**, because none of version control's
+safety net is underneath either, and the tree is stateful besides. Three shapes, all observed: a
+branch deleted on merge orphaned a checkout in a channel nobody remembered was open; a reflog held
+three commits whose author could not be identified by the channel that owned the machine; and a
+`git switch` in one channel silently changes what the other's next read returns. Git protects
+*history*. It has no opinion about a working tree that two writers hold open.
+
+**The rule: one channel, one directory.**
+
+- **A fork is a new channel.** Give it its own directory *before it writes anything*. The move itself
+  stays cheap and does not get harder with time — one report from inside the retrofit puts it at six
+  files and six index lines, minutes of work. **What retrofitting costs you is not labour, it is the
+  provenance that was never captured**, and no amount of later effort reconstructs it.
+- **To read another channel's repository, clone it separately — at a path outside every channel's
+  directory.** A shared clone parked inside one channel's tree is *that channel's*, whatever the
+  convention says, and it re-creates the problem one level down. Put it somewhere no channel owns.
+- **"Read-only" has to be enforced at kickoff, not observed.** A convention that a clone is never
+  written to is vigilance, and §1.2 applies to it like anything else. The working version is a pull
+  step that refreshes `--ff-only` and **refuses to start the day** if the clone was committed in,
+  edited in place, or cannot fast-forward — which catches the write that happened while nobody was
+  watching, rather than the one you remember making.
+- **Register each channel's directories where the other channels can see them.** Sharing that nobody
+  has written down is sharing nobody can check.
+- **Splitting a shared store: move the files, _prune_ the index rather than replacing it, then
+  rewrite the links that now cross out.** The index is loaded every session and is never leftover; a
+  rebuilt one loses what it was never told to carry. The link step is the one people skip, and the
+  reason it matters is that **an unresolved cross-reference is legitimate** — it marks something
+  worth writing later. Across a store boundary the identical syntax means something else: the target
+  exists, elsewhere, and is unreachable. The notation cannot distinguish *not written yet* from *not
+  visible from here*, so a split turns honest forward references into false negatives without
+  changing a character. Measured in one split: four references crossed the boundary and **all four
+  ran the same direction** — the departing channel into the parent, none back. Check the direction
+  before assuming the cost is shared.
+- **Decide ownership by content, and beware a link that looks like co-ownership.** In the same split,
+  the one file that appeared to belong to both turned out to belong to one — it merely *referenced*
+  a memory owned by the other. A one-way dependency is not shared ownership, and mistaking the two is
+  the first reasoning anyone doing this will reach for.
+
+**What makes this class hard to catch is that nothing fails.** No error, no conflict, no merge step
+where a collision could surface, no recorded author to appeal to. The second writer wins and the
+first version is simply gone. The only symptom is a channel acting confidently on a fact that was
+true for somebody else — which is indistinguishable, from the inside, from acting on its own.
 
 ---
 
@@ -1128,6 +1234,8 @@ green build) was accepted as proof of a mechanism nobody had actually checked.
 
 ### Session kickoff
 - [ ] Read the shared coordination record — before pulling, if others work on this material
+- [ ] Scan your memory store for files you did not write — one you do not recognise means another
+      session shares your directory (§5.9)
 - [ ] Pull every repo, including read-only ones
 - [ ] Re-probe deployed versions from the live systems
 - [ ] Run the standing canaries

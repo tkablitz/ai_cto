@@ -1303,8 +1303,11 @@ never returned non-zero, that is a fact about the harness, not about the system.
 
 ---
 
-*Created by Claude Opus 5, reviewed by Torsten Kablitz · 2026-08-03. Distilled from years of DevOps
-and TDD practice across production systems; no proprietary or client-identifying material.*
+*Created by Claude Opus 5. **Last substantive review by Torsten Kablitz: 2026-08-22.** The date is
+the last review, not the first authorship — a document under continuous revision that carries its
+origin date tells a reader when it stopped being checked, which is the opposite of what they need.
+Distilled from years of DevOps and TDD practice across production systems; no proprietary or
+client-identifying material.*
 
 *Home: <https://github.com/tkablitz/ai_cto>*
 

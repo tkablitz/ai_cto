@@ -1,6 +1,6 @@
 # `<System>` — Validation Strategy
 
-**Created by Claude `<model>`, reviewed by `<owner>` · `<date>`**
+**Created by Claude `<model>` · last substantive review by `<owner>`, `<date>`**
 
 > **TDD expanded, not replaced.** The *T* is generic. Test-driven means tests are foundational and
 > written first — they are how the design gets specified, not how it gets checked afterwards. What

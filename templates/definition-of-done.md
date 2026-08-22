@@ -3,7 +3,7 @@
 **Audience:** development team + project/product management.
 **Purpose:** one shared meaning for the word "Completed," so status tables, standups, and
 architecture documents say the same thing to everyone.
-**Created by Claude `<model>`, reviewed by `<owner>` · `<date>`**
+**Created by Claude `<model>` · last substantive review by `<owner>`, `<date>`**
 
 ## 1. The core rule
 

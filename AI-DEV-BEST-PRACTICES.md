@@ -308,7 +308,7 @@ mind.
 > write the exclusion list anyway — "today" is the part that expires. Prefer naming the cases you
 > are ruling *out* over widening the positive test.
 
-### 2.2 Four more that look like passes
+### 2.2 Six more that look like passes
 
 **A conditional gate can be skipped many times in a row, and its skips look like passes.** A
 post-deploy assertion only executed when a live workload existed at deploy time. Three consecutive
@@ -352,6 +352,38 @@ passing, because a run still executing has no conclusion at all.
 > it inspected passed" are different questions that agree just often enough to be trusted. Read the
 > state you care about, require that state to be terminal before reading it, and treat not-yet-known
 > as a third outcome — a two-state check cannot report a three-state world.
+
+**A suite that exercises real tooling consumes the real state that tooling keeps.** A status-check
+suite drove its own kickoff orchestrator end to end, asserting that each leg blocked when it should.
+One of those legs reads a shared coordination record and stores the id of the last item it displayed,
+so the next run reports only what arrived since. The suite ran that leg against the **live** record
+and advanced the **live** marker — so running the tests marked unread items as seen. The next kickoff
+reported "nothing new", was *correct about its marker and wrong about the world*, and two messages
+from another team were never shown to anyone. Nothing failed, and nothing could have: a cursor moving
+forward is exactly what success looks like.
+
+> **Ask of any suite: what real state does it write to?** Databases and network calls get test doubles
+> by habit. The small files tooling keeps beside itself — markers, cursors, last-seen ids, caches —
+> almost never do, and they are precisely the state whose corruption has no symptom. Give every leg an
+> injectable path to that state and point it somewhere disposable. Then prove it: **hash the real
+> artefact before and after a full suite run, and assert it did not move.** That tests the property
+> that matters, which is that nothing moved — not the one that is easy to assert, which is that the
+> tests passed.
+
+**An assertion can have no path to red, because the harness loses the signal before the assertion
+reads it.** Two instances, in different shells, hours apart. A PowerShell runner started as
+`pwsh -File runner.ps1` dot-sourced the script under test: `exit 2` inside a dot-sourced script sets
+the status variable and lets execution continue, so the runner ended normally and returned 0 — and the
+suite's "blocks when truncated" assertion passed, as it would have for every possible exit code. A
+Bash pre-push hook's status was read from `${PIPESTATUS[0]}` after an intervening command had already
+overwritten it, and reported success for a hook that had just printed `push refused`. Both suites were
+green. Neither could have been anything else.
+
+> This is §2.3's habit — *make every new assertion fail once, on purpose* — and these two are why it
+> is load-bearing rather than tidy. **Neither defect is in the assertion, and neither is in the code
+> under test; both live in the plumbing between them.** Reading either side shows nothing wrong,
+> because both sides are correct. Break the subject deliberately and watch for red. **If you cannot
+> make it fail, you have not written a test yet — you have written a claim about your harness.**
 
 ### 2.3 The review technique
 
@@ -1203,6 +1235,18 @@ green build) was accepted as proof of a mechanism nobody had actually checked.
 
 ---
 
+**An `exit` inside a script you dot-source does not exit the process.**
+A runner started with `pwsh -File runner.ps1` that dot-sources — or `&`-invokes — the script under
+test does **not** inherit that script's exit code. `exit 2` in the inner script sets `$LASTEXITCODE`
+and execution continues in the runner, which then ends normally and returns **0**. Measured across
+both invocation forms; only an explicit `exit $LASTEXITCODE` as the runner's final statement
+propagates it. A harness built this way reports success for every possible outcome of the thing it
+runs, including the ones it was written to catch.
+→ **Propagate exit status explicitly across every process and scope boundary, and prove one non-zero
+case end to end.** The boundary is where status gets dropped in most shells and languages; the repair
+is one line and the failure is silent, which is the worst available combination. **If a harness has
+never returned non-zero, that is a fact about the harness, not about the system.**
+
 ## Appendix — Working checklists
 
 ### New defect drill
@@ -1218,6 +1262,8 @@ green build) was accepted as proof of a mechanism nobody had actually checked.
 ### Pre-ship review
 - [ ] Does every new test's assertion match its name?
 - [ ] Would any new check still pass if the feature were entirely absent?
+- [ ] Can each new assertion actually go red? Has it been seen to?
+- [ ] Does anything in this suite write to state the real system reads?
 - [ ] Has each gate in this path actually *run* recently, or only not-failed?
 - [ ] Is there a state transition here that only a live run crosses? Is it covered?
 - [ ] Did any existing test have to change? Which of the two was wrong?

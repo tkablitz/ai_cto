@@ -172,8 +172,19 @@ done
 
 for f in $(git ls-tree -r --name-only "$tip" \
            | grep -E '^(starter-CLAUDE\.md|templates/.*\.md)$'); do
-  git show "$tip:$f" | grep -q SPDX \
-    || flag "no SPDX notice: $f"
+  notice=$(git show "$tip:$f" | grep SPDX || true)
+  if [ -z "$notice" ]; then
+    flag "no SPDX notice: $f"
+  elif ! printf '%s' "$notice" | grep -qE 'rev [0-9]{4}-[0-9]{2}-[0-9]{2}'; then
+    # Checking only for the string "SPDX" let a template ship with a bare
+    # notice and no rev at all. Check 4 below then had no stamp to require
+    # moving, so that file was permanently exempt from the staleness gate
+    # every other copyable file is subject to — and the exemption looked
+    # exactly like a pass. Measured: it happened, one commit after the
+    # template was added.
+    flag "SPDX notice carries no 'rev YYYY-MM-DD': $f"
+    say  "           without a rev there is no stamp for the staleness check to require moving"
+  fi
 done
 
 # ---------------------------------------------------------------------------

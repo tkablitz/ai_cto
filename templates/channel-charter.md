@@ -146,4 +146,4 @@ differ" were both true and reported hours apart — the copy was clean, and the 
 afterwards. **A verification run at the wrong moment tells the wrong story even when everyone involved
 is honest and correct.**
 
-<!-- SPDX-License-Identifier: MIT -->
+<!-- SPDX-License-Identifier: MIT · rev 2026-08-22 · © 2026 Torsten Kablitz · https://github.com/tkablitz/ai_cto -->

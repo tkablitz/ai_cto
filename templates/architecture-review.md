@@ -46,4 +46,4 @@ worsens. "The findings don't contradict the architecture — they sequence it.">
 
 *Created by Claude `<model>` · last substantive review by `<owner>`, `<date>`.*
 
-<!-- SPDX-License-Identifier: MIT · rev 2026-08-03 · © 2026 Torsten Kablitz · https://github.com/tkablitz/ai_cto -->
+<!-- SPDX-License-Identifier: MIT · rev 2026-08-22 · © 2026 Torsten Kablitz · https://github.com/tkablitz/ai_cto -->

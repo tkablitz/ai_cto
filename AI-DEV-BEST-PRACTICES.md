@@ -339,6 +339,9 @@ clothing: *would this check still pass if the feature were entirely absent?* On 
 > rule guaranteeing the property exists and says what you think it says. The property assertion
 > catches a real violation where one can occur; the mechanism assertion fails everywhere, including
 > on the runner that cannot see the property. Neither is sufficient alone.
+>
+> And check *how* you assert the property, not only that you did: the obvious way to count CRLF is
+> broken in both directions, for two independent reasons. Part 7 has the measurements.
 
 **A check can return success for the command while the thing it checked failed.** An automated CI
 verification reported a red run as green. The flag carrying the run's conclusion into the exit code
@@ -1229,6 +1232,29 @@ running — just nowhere a developer could reach it.
 Cross-platform defaults are the usual culprit: line endings, path separators, case sensitivity,
 locale.
 
+**A character your transport normalizes cannot be measured by a check that spells it as an escape.**
+Counting carriage returns with `grep -c $'\r'` through an agent's shell tool returned the file's
+**line count** — 692 of 692 — for a file holding **zero** CR bytes. The escape is interpreted before
+the shell receives it and the resulting CR is then stripped as a line ending, so what bash actually
+gets is `$''`; an empty pattern matches every line, and the result therefore *scales with the file*,
+which is precisely what a real CRLF infestation looks like. Measured across all three spellings —
+`\r`, `\015`, `\x0d`, every one destroyed — while `\t`, `\a`, `\f` and `\v` survive the identical
+path intact. Only the character that normalization targets is lost, and it is the only character
+such a check ever wants. The diagnostic's own labels lost it too, printing `$''` where `$'\r'` was
+written.
+
+Then the obvious repair produces the opposite error. Build the pattern as a genuine CR byte — via
+`tr` or `awk`, confirmed with `od` — and `grep -c` returns **0** on that same file: zero with the CR
+at end-of-line, one for the identical byte moved mid-line. Git Bash's `grep` strips a trailing CR
+before matching, and in a CRLF file every CR is trailing. So the corrected check is structurally
+blind to the only case it exists to detect — and where the first version cried wolf, this one fails
+in the direction that looks clean.
+→ **Never measure a character with a tool that holds an opinion about that character.** Count bytes
+with something that does not parse lines — `tr -cd '\015' | wc -c` — or ask the system that already
+knows: `git ls-files --eol` reports index and working-tree endings per file, and `file` names them.
+And when a check reports a count, ask what else that number could be. **"Every line" and "the line
+count" are the same integer**, and only one of them is a finding.
+
 The through-line for all of them: **confirm the mechanism, don't infer it from a symptom.** Every
 one of these was a case where a plausible signal (exit 0, an empty list, "the site responds", a
 green build) was accepted as proof of a mechanism nobody had actually checked.
@@ -1303,7 +1329,7 @@ never returned non-zero, that is a fact about the harness, not about the system.
 
 ---
 
-*Created by Claude Opus 5. **Last substantive review by Torsten Kablitz: 2026-08-22.** The date is
+*Created by Claude Opus 5. **Last substantive review by Torsten Kablitz: 2026-08-23.** The date is
 the last review, not the first authorship — a document under continuous revision that carries its
 origin date tells a reader when it stopped being checked, which is the opposite of what they need.
 Distilled from years of DevOps and TDD practice across production systems; no proprietary or

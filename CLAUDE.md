@@ -38,9 +38,9 @@ If that list is missing, the hook **fails** rather than passing quietly. A scan 
 scan for returns clean and looks identical to a real pass; see §2.2 of the guide.
 
 It checks every tree being pushed for excluded names and local paths, checks author and committer
-identity, and checks that every file is named in `LICENSE` and carries its SPDX notice. It does
-not replace judgment about what belongs here — it catches the cases where judgment was already
-exercised and then forgotten.
+identity **against an exact allowlist rather than a domain**, and checks that every file is named in
+`LICENSE` and carries its SPDX notice. It does not replace judgment about what belongs here — it
+catches the cases where judgment was already exercised and then forgotten.
 
 `git push --no-verify` bypasses it, as it bypasses any hook. That is git's design and cannot be
 prevented from inside the hook.
@@ -75,7 +75,17 @@ git log --format='%an <%ae>' origin/main..HEAD | Sort-Object -Unique   # publish
 ```
 
 Commit metadata is published too. Author and committer email land in the permanent record, so
-they must not carry an employer or client domain.
+they must not carry an employer or client domain — **nor an excluded name in the local part**,
+which is the half this sentence used to omit and the half that actually failed. An address whose
+domain is perfectly fine can still publish a client's name before the `@`, and a check written
+against the domain cannot see it. The hook now allowlists **exact addresses** for that reason.
+
+**Adding a channel means adding its address to `$identities` in `.githooks/pre-push`, in a commit.**
+That is deliberate: the list is tracked, so an excluded name cannot be added to it without appearing
+in a tracked file, where the name scan blocks it. The two checks reinforce each other rather than
+overlapping. **If a channel's name identifies an organization, the answer is not to add it** — that
+channel hands its change to the channel that owns this repo, and it lands under an identity naming
+nobody.
 
 ## What this repository is
 

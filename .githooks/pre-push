@@ -141,14 +141,53 @@ done
 # ---------------------------------------------------------------------------
 # 2. Commit metadata. Author and committer email are published too, and are
 #    not removable without rewriting history the remote already holds.
+#
+#    EXACT addresses, never a domain suffix. This check used to accept
+#    `*@qednet.com`, which accepts every local part under the domain — so a
+#    channel named after a client organization passed every check here while
+#    the name scan above was blocking that same string in file content. Not
+#    hypothetical: one commit reachable from main carries such an address,
+#    published by a channel following the documented ephemeral-clone procedure
+#    verbatim. Left in place deliberately — rewriting cannot unpublish it.
+#
+#    Adding a channel means adding its address to this list, in a commit, in a
+#    tracked file. That is the point rather than a chore: an organization-derived
+#    address cannot be added without the name appearing where check 1 blocks it.
+#    The two checks reinforce each other instead of overlapping.
+#
+#    Every address here is already in this repository's published history, so
+#    listing them discloses nothing a `git log` would not.
 # ---------------------------------------------------------------------------
+identities=$(cat <<'EOF'
+tkablitz@gmail.com
+tck@qednet.com
+tck+aicto@qednet.com
+noreply@github.com
+EOF
+)
+
+# No blank lines in that list, and an empty address is refused rather than
+# tested: `grep -xF ''` matches a blank line, so a blank entry plus an empty
+# %ae would be a silent PASS — the same defect this hook already fixed once in
+# the leak-pattern list, one check over.
 for c in $commits; do
+  short=$(git rev-parse --short "$c")
   for addr in $(git log -1 --format='%ae%n%ce' "$c" | sort -u); do
+    [ -n "$addr" ] || { flag "empty author/committer address in $short"; continue; }
+
+    printf '%s\n' "$identities" | grep -qxF "$addr" && continue
+
+    flag "unexpected identity in $short: $addr"
     case "$addr" in
-      *@users.noreply.github.com|*@gmail.com|*@qednet.com) ;;
+      *+*@*)
+        say  "           this is channel-shaped, and its channel is not on the list."
+        say  "           If the part after '+' names a client, employer or organization,"
+        say  "           DO NOT add it — that name would be published into commit metadata,"
+        say  "           which no later commit can remove. Hand the change to the prime"
+        say  "           channel and let it land under an identity that names nobody."
+        ;;
       *)
-        flag "unexpected identity in $(git rev-parse --short "$c"): $addr"
-        say  "           add it to the allowlist in .githooks/pre-push if it is intended"
+        say  "           add it to \$identities in .githooks/pre-push if it is intended"
         ;;
     esac
   done

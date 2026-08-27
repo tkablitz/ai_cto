@@ -308,7 +308,7 @@ mind.
 > write the exclusion list anyway — "today" is the part that expires. Prefer naming the cases you
 > are ruling *out* over widening the positive test.
 
-### 2.2 Six more that look like passes
+### 2.2 Seven more that look like passes
 
 **A conditional gate can be skipped many times in a row, and its skips look like passes.** A
 post-deploy assertion only executed when a live workload existed at deploy time. Three consecutive
@@ -342,6 +342,39 @@ clothing: *would this check still pass if the feature were entirely absent?* On 
 >
 > And check *how* you assert the property, not only that you did: the obvious way to count CRLF is
 > broken in both directions, for two independent reasons. Part 7 has the measurements.
+
+**An assertion can pass locally because nothing local runs as the thing that will be refused.** A
+release gate asserted six properties of a deployed resource. It went through six implementer and
+reviewer passes, a 36-mutation battery, a 43-mutation battery, a whole-branch review on the
+strongest model available, and 686 tests. Every one of them green. On the first deploy, five of the
+six assertions returned the same line — `AccessDenied`, HTTP 403. The deploy role carried exactly
+three read actions, and the one the new assertions needed was not among them.
+
+Nothing local could have caught it, and this is worth being precise about rather than filing under
+"needs more tests." Synthesising the infrastructure template proves the template is well-formed.
+Template assertions prove it says what you meant. Mutation batteries prove your tests are capable of
+failing. **Not one of them calls the API as the real principal**, which is the only thing that can
+answer *may this run do what we have just told it to do*.
+
+**The least-privilege decision is what made the gap possible, and that is not an argument against
+it.** An earlier change had deliberately enumerated those three actions rather than granting a
+wildcard. A wildcard would have passed. The careful choice is the one that needs the matching
+verification, so the teams most exposed here are the ones already doing the right thing.
+
+**And the same error means two opposite things.** This was the second of three gate assertions to
+fail this way; another pins a resource identifier literally, so a legitimate teardown and rebuild
+mints a new id and the gate reports `AccessDenied` against a **correct** system. One says *you
+forgot a permission*; the other says *your permission outlived the resource it named*. The signal
+does not distinguish them, so the first instinct — grant something — is right half the time and
+makes the other half worse.
+
+> **Ask of any gate: has its principal ever performed these actions, as itself, where it runs?** The
+> check that closes this is a pre-flight asserting that the gate's identity can perform every action
+> its steps require — run **as** the gate, **in** the gate, before the steps that depend on it. It
+> fails in seconds with a list, rather than at the first refused call with one line, and it tells the
+> two cases above apart because it names the resource it was refused on. **An authorization boundary
+> is a deployed artifact.** It can only be tested where it is deployed, as who it will be — and a
+> suite that cannot assume that identity is not weak evidence about it, it is no evidence at all.
 
 **A check can return success for the command while the thing it checked failed.** An automated CI
 verification reported a red run as green. The flag carrying the run's conclusion into the exit code
@@ -1292,6 +1325,8 @@ never returned non-zero, that is a fact about the harness, not about the system.
 - [ ] Does anything in this suite write to state the real system reads?
 - [ ] Has each gate in this path actually *run* recently, or only not-failed?
 - [ ] Is there a state transition here that only a live run crosses? Is it covered?
+- [ ] Does anything here call an API that the local suite cannot call **as the deployed principal**?
+      If so, no local result is evidence about whether it is permitted
 - [ ] Did any existing test have to change? Which of the two was wrong?
 - [ ] For every "X can no longer happen" in the spec or commit message — was the sweep run?
 - [ ] For any accepted degradation — what will the user actually *see*?
@@ -1329,7 +1364,7 @@ never returned non-zero, that is a fact about the harness, not about the system.
 
 ---
 
-*Created by Claude Opus 5. **Last substantive review by Torsten Kablitz: 2026-08-23.** The date is
+*Created by Claude Opus 5. **Last substantive review by Torsten Kablitz: 2026-08-27.** The date is
 the last review, not the first authorship — a document under continuous revision that carries its
 origin date tells a reader when it stopped being checked, which is the opposite of what they need.
 Distilled from years of DevOps and TDD practice across production systems; no proprietary or

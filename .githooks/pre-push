@@ -84,6 +84,7 @@ while read -r _local_ref local_sha _remote_ref remote_sha; do
   case "$remote_sha" in
     *[!0]*) range=$(git rev-list "$remote_sha..$local_sha"); b="$remote_sha" ;;
     *)      range=$(git rev-list "$local_sha" --not --remotes)
+            # shellcheck disable=SC2086  # unquoted on purpose: splitting the list into args is the point
             oldest=$(printf '%s\n' $range | grep . | tail -1)
             b=$(git rev-parse "$oldest^" 2>/dev/null || true)
             ;;
@@ -98,6 +99,7 @@ while read -r _local_ref local_sha _remote_ref remote_sha; do
   commits="$commits $range"
 done
 
+# shellcheck disable=SC2086  # unquoted on purpose: splitting the list into args is the point
 commits=$(printf '%s\n' $commits | sort -u)
 
 if [ -z "$commits" ]; then

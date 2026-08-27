@@ -58,6 +58,19 @@ without rewriting history the remote already holds.
 > accepts every suffix under it. It catches a foreign domain reaching a personal repo — worth having,
 > and not the same thing. The check that catches the other case compares against *this charter*.
 >
+> **The decision this row records is made when the address is minted, not when a commit is pushed.**
+> A channel that will ever author commits in a **public** repository must not be given an address
+> containing a client, employer or organization name — because by push time the address exists, the
+> commits exist, and the only remaining question is whether to publish them. A push-time allowlist is
+> a useful backstop and it is answering a narrower question than this one: *is this address
+> registered*, not *should this name exist*. Keep both, and do not mistake the second for the first.
+>
+> This is not hypothetical. One project published a client-derived address into a public repository's
+> permanent metadata by following its own documented procedure — the domain was fine, the name sat
+> before the `@`, and every check it had was written against the domain. **Rewriting history does not
+> unpublish it**, so the decision recorded in this row is the last point at which the outcome is still
+> available.
+>
 > **Give the machine-level fallback its own address, distinct from every channel's.** Then that
 > address appearing on a commit is a signal — some channel committed from a clone with no repo-local
 > identity — rather than a silent misattribution to whichever channel the include happened to name.
@@ -146,4 +159,4 @@ differ" were both true and reported hours apart — the copy was clean, and the 
 afterwards. **A verification run at the wrong moment tells the wrong story even when everyone involved
 is honest and correct.**
 
-<!-- SPDX-License-Identifier: MIT · rev 2026-08-22 · © 2026 Torsten Kablitz · https://github.com/tkablitz/ai_cto -->
+<!-- SPDX-License-Identifier: MIT · rev 2026-08-27 · © 2026 Torsten Kablitz · https://github.com/tkablitz/ai_cto -->

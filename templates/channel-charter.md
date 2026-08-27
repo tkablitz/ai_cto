@@ -13,7 +13,7 @@ and an unasked question look identical, and only one of them is safe.
 
 | Field | Value |
 | --- | --- |
-| **Short name** | How other channels address this one. Lowercase, no spaces. **Name it for its lineage, not its subject matter** — the roster's job is telling channels apart, not describing what they do, and a channel's subject drifts while its parentage does not |
+| **Short name** | How other channels address this one. Lowercase, no spaces. **A greenfield channel names its root context; a fork names its lineage** — the roster's job is telling channels apart, and the first channel for a new context has no lineage to name itself for. Then read §3 before minting an address from it: a name that is fine on a private roster is not automatically fine in public commit metadata |
 | **Purpose** | One sentence. What this channel is *for*, not what it did last |
 | **Parent** | The short name it was forked from, or `none`. **A fork is a new channel** |
 | **Started** | `YYYY-MM-DD` |
@@ -159,4 +159,4 @@ differ" were both true and reported hours apart — the copy was clean, and the 
 afterwards. **A verification run at the wrong moment tells the wrong story even when everyone involved
 is honest and correct.**
 
-<!-- SPDX-License-Identifier: MIT · rev 2026-08-27 · © 2026 Torsten Kablitz · https://github.com/tkablitz/ai_cto -->
+<!-- SPDX-License-Identifier: MIT · rev 2026-08-27.2 · © 2026 Torsten Kablitz · https://github.com/tkablitz/ai_cto -->

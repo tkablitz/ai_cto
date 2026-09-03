@@ -16,6 +16,7 @@ and an unasked question look identical, and only one of them is safe.
 | **Short name** | How other channels address this one. Lowercase, no spaces. **A greenfield channel names its root context; a fork names its lineage** — the roster's job is telling channels apart, and the first channel for a new context has no lineage to name itself for. Then read §3 before minting an address from it: a name that is fine on a private roster is not automatically fine in public commit metadata |
 | **Purpose** | One sentence. What this channel is *for*, not what it did last |
 | **Parent** | The short name it was forked from, or `none`. **A fork is a new channel** |
+| **Depends on** | Channels this one reads from without owning any of their work, or `none`. **This is not `Parent`** — a fork inherits a lineage, a dependency is a sibling relationship that exists in the present tense. Say what flows and in which direction |
 | **Started** | `YYYY-MM-DD` |
 | **Machine** | Which workstation or VM |
 
@@ -26,7 +27,7 @@ and an unasked question look identical, and only one of them is safe.
 | **Working directory** | The one directory this channel writes in. **Not shared with any other channel** |
 | **Memory store** | Derived from the working directory, so this is a consequence of the row above rather than a separate choice. Record the resolved key — **measured after the fact, never predicted**. A store may not exist until the channel writes its first memory |
 | **Repositories it may write to** | Explicit list, or **`none`**. `none` is a normal answer for a channel that produces drafts, reviews, or outbound work |
-| **Read-only clones it keeps** | Path, and what it is a clone of. Must sit **outside every channel's directory** |
+| **Read-only clones it keeps** | Path, and what it is a clone of. **The test is the number of writers, not the location.** A clone *many* channels read belongs at a machine-level path outside every channel's directory, so it reads as nobody's property; a clone only this channel reads is fine in this channel's own space — put it beside the repo rather than inside it, so it is not a nested repository. Never inside **another** channel's directory |
 | **Handoffs land in** | Path and repository. If that repository is private, say so — it decides where cross-channel items have to go instead |
 
 > **A charter row is a claim, not a measurement.** One roster entry asserted its directories were
@@ -159,4 +160,4 @@ differ" were both true and reported hours apart — the copy was clean, and the 
 afterwards. **A verification run at the wrong moment tells the wrong story even when everyone involved
 is honest and correct.**
 
-<!-- SPDX-License-Identifier: MIT · rev 2026-08-27.2 · © 2026 Torsten Kablitz · https://github.com/tkablitz/ai_cto -->
+<!-- SPDX-License-Identifier: MIT · rev 2026-09-02 · © 2026 Torsten Kablitz · https://github.com/tkablitz/ai_cto -->

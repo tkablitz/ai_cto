@@ -16,7 +16,7 @@ and an unasked question look identical, and only one of them is safe.
 | **Short name** | How other channels address this one. Lowercase, no spaces. **A greenfield channel names its root context; a fork names its lineage** — the roster's job is telling channels apart, and the first channel for a new context has no lineage to name itself for. Then read §3 before minting an address from it: a name that is fine on a private roster is not automatically fine in public commit metadata |
 | **Purpose** | One sentence. What this channel is *for*, not what it did last |
 | **Parent** | The short name it was forked from, or `none`. **A fork is a new channel** |
-| **Depends on** | Channels this one reads from without owning any of their work, or `none`. **This is not `Parent`** — a fork inherits a lineage, a dependency is a sibling relationship that exists in the present tense. Say what flows and in which direction |
+| **Depends on** | Channels this one reads from without owning any of their work, or `none`. **This is not `Parent`** — a fork inherits a lineage, a dependency is a sibling relationship that exists in the present tense. Say what flows and in which direction. **If the thing you depend on is not a registered channel, say that too, and name it as unregistered rather than by its path** — a row naming a directory where it should name a channel is a copy of state that will go stale, and the gap is the registry's to close, not yours to paper over |
 | **Started** | `YYYY-MM-DD` |
 | **Machine** | Which workstation or VM |
 
@@ -45,6 +45,7 @@ without rewriting history the remote already holds.
 | --- | --- |
 | **Author/committer address** | The address this channel's commits carry, or **`n/a — commits nothing`** |
 | **How it is selected** | The mechanism, not the value: a repo-local `user.email`, a `gitdir:`-keyed conditional include, or a machine-level default |
+| **Does it identify this channel?** | **`yes` / `no — attribution here is convention`.** Answer it explicitly. A channel can legitimately commit under an address it *shares* — a machine fallback, or an organization's own identity on organization work — and then no configuration anyone inspects afterwards can say which channel wrote a commit. That is a valid choice and it is not a gap, **provided it is written here rather than discovered later**. Say what stands in for the mechanism: a `Channel:` trailer, a branch convention, nothing |
 
 > **Check the keying, not the value.** A conditional include keyed on the *remote URL*
 > (`hasconfig:remote.*.url`) gives the **repository** an identity, not the channel — so on a machine
@@ -160,4 +161,4 @@ differ" were both true and reported hours apart — the copy was clean, and the 
 afterwards. **A verification run at the wrong moment tells the wrong story even when everyone involved
 is honest and correct.**
 
-<!-- SPDX-License-Identifier: MIT · rev 2026-09-02 · © 2026 Torsten Kablitz · https://github.com/tkablitz/ai_cto -->
+<!-- SPDX-License-Identifier: MIT · rev 2026-09-03 · © 2026 Torsten Kablitz · https://github.com/tkablitz/ai_cto -->

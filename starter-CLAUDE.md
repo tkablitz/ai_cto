@@ -89,6 +89,9 @@ Every "Complete" carries its evidence — the command, link, or run ID that prov
   fine; publishing externally is not.
 - **Report honestly.** If tests fail, show the output. If a step was skipped, say so. Don't present
   in-flight work as finished.
+- **Match length to need.** Written documents cover the substance and do not pad with filler
+  sections, redundant summaries, or boilerplate. Lead with the outcome; detail follows for readers
+  who want it. A report twice as long as the work was is not twice as useful.
 
 ## Environment
 
@@ -102,4 +105,4 @@ Every "Complete" carries its evidence — the command, link, or run ID that prov
 the failures behind each one. Process enforcement comes from the Superpowers skill library —
 <https://github.com/obra/superpowers>.*
 
-<!-- SPDX-License-Identifier: MIT · rev 2026-08-03 · © 2026 Torsten Kablitz · https://github.com/tkablitz/ai_cto -->
+<!-- SPDX-License-Identifier: MIT · rev 2026-09-07 · © 2026 Torsten Kablitz · https://github.com/tkablitz/ai_cto -->

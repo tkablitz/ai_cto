@@ -1,3 +1,11 @@
+<!--
+  LENGTH. Match this file to what the session needs: cover the substance, and do not pad with
+  filler sections, redundant summaries, or boilerplate. A section with nothing in it is deleted,
+  not filled. Lead each section with the outcome; detail follows for a reader who wants it.
+  The next session reads this instead of reconstructing the day — a handoff twice as long as
+  the day was is not twice as useful, and it is read by every channel that shares the record.
+-->
+
 # EOD Handoff — `<date>`
 
 ## Today in one paragraph
@@ -30,4 +38,4 @@ half of the handoff that a file cannot deliver — see §4.3.
 - Roadmap tracker updated. Memories current: <files touched>. 
 - Op notes: <sharp-edged environment facts learned today, one line each>.
 
-<!-- SPDX-License-Identifier: MIT · rev 2026-08-18 · © 2026 Torsten Kablitz · https://github.com/tkablitz/ai_cto -->
+<!-- SPDX-License-Identifier: MIT · rev 2026-09-07 · © 2026 Torsten Kablitz · https://github.com/tkablitz/ai_cto -->

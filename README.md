@@ -58,6 +58,7 @@ if you're here to write code — the first four steps are the whole job.
 | `templates/issues-log.md` | Findings log for systems you don't own (§3.1) |
 | `templates/architecture-review.md` | Structured review of someone else's design proposal |
 | `templates/channel-charter.md` | What a long-lived session owns, and how to split one that shares a directory |
+| `templates/channel-build-runbook.md` | Standing up a new channel from nothing — the owner's half, step by step. **A worked example on one stack**, meant to be adapted by your own agent, not copied (§5.9, §6.2) |
 | `templates/validation-strategy.md` | Which validation answers which question, and where each is blind (§1.1, §2.5) |
 
 Every template uses `<angle-bracket placeholders>`. Fill them in and delete what you don't need.
@@ -81,6 +82,7 @@ pieces you have a use for:
 | `templates/eod-handoff.md` | Once work starts spanning more than a day |
 | `templates/phase-roadmap.md`, `templates/issues-log.md` | Only if you're leading the work |
 | `templates/channel-charter.md` | The moment a second session starts, or a first one forks |
+| `templates/channel-build-runbook.md` | When you build that second session deliberately rather than by forking — read it first, adapt it to your stack, then follow the adapted copy one step at a time |
 | `templates/architecture-review.md` | When someone hands you a design to review |
 | `templates/validation-strategy.md` | Once the suite is big enough that nobody can tell by reading whether it bites |
 

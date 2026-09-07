@@ -1061,6 +1061,15 @@ Then seed three things before writing any code:
 2. **The engineering defaults** — Part 1 of this guide, pasted or referenced.
 3. **A Definition of Done** — §1.8, as a file in the repo, so the vocabulary is shared.
 
+**If what you are standing up is a channel** — a session that will outlive its first task and needs
+its own directory, memory store, identity and registration (§5.9) — the two commands above are the
+easy tenth of it. **`templates/channel-build-runbook.md`** is the whole owner's half, extracted from
+two real builds: the machine defaults that are right for one tier of work and wrong for another, the
+memory key that has to be measured rather than derived, the seed checks that were vacuous until they
+were made to fail, and the decisions that have to be made at minting time rather than at push. It is
+written for one specific stack and says so on its first line; adapt it with your own agent before
+following it, and keep every check where it is.
+
 ### 6.3 A starter rules file
 
 A complete, fill-in-the-blanks version ships next to this guide as **`starter-CLAUDE.md`** — copy

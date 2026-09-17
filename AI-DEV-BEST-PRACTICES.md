@@ -308,7 +308,7 @@ mind.
 > write the exclusion list anyway — "today" is the part that expires. Prefer naming the cases you
 > are ruling *out* over widening the positive test.
 
-### 2.2 Seven more that look like passes
+### 2.2 Eight more that look like passes
 
 **A conditional gate can be skipped many times in a row, and its skips look like passes.** A
 post-deploy assertion only executed when a live workload existed at deploy time. Three consecutive
@@ -406,6 +406,74 @@ forward is exactly what success looks like.
 > that matters, which is that nothing moved — not the one that is easy to assert, which is that the
 > tests passed.
 
+**An assertion can be satisfied by something that was already there.** A verification step searched
+a build log for a commit subject — and the script running the check had printed that same subject
+one stage earlier. It passed on a branch with the entire feature deleted, because the line it looked
+for was produced by the looking.
+
+> **An assertion is vacuous if anything that pre-dates the feature can satisfy it.**
+
+This is the fourth failure shape again, sharpened into something you can apply by **reading**. The
+existing question — *would this check still pass if the feature were entirely absent?* — asks you to
+imagine the absent system, which is precisely the imagination that failed when the check was
+written. The mechanical version asks instead: **name the set of things that satisfy this assertion,
+then ask which of them existed yesterday.** Three kinds of satisfier account for nearly every
+instance.
+
+**Text that already exists — including the file's own comments.** The case above is the common form:
+a check that greps for a string is only as strong as the guarantee that nothing else emits that
+string, and the usual "something else" is the harness. But the satisfier does not have to be output
+at all. A guard asserted that a source file still performed a lookup by matching the lookup
+function's name against the file's text — and that file's own docstrings named the function twice,
+in prose explaining it. Delete the real call and the guard stayed green. **A pattern run over a whole
+file is satisfied by that file's comments.** The repair here shrinks the satisfier set rather than
+adding a precondition: require the shape of a call, not the presence of a name, and prove it by
+deleting the code while leaving the prose. Both halves survive review for the same reason — each is
+correct in its own file.
+
+**An absence — which is the default state of everything.** The sharpest of the three, because it
+inverts the usual intuition about strictness. A seeding procedure substituted a placeholder token
+throughout a set of files and verified itself by asserting the token no longer appeared anywhere.
+That assertion also passes against a source that never contained the token, against a run that
+copied no files at all, and against an empty directory. The same defect in a different costume: a
+documentation test planted three deliberate gaps to see whether a reader would report them, and read
+silence as a pass — but one of the three had already been answered elsewhere in the material, so
+that silence was correct and meant nothing. **An absence is evidence only if you first proved the
+presence.**
+
+**The subject of the test, used as the source of the expectation.** A sign-out path had to expire
+every cookie its service issues, and the obvious test derives the expected set from the same
+exported constant the implementation iterates. That test compares a list to itself: it passes with a
+cookie missing from both, which is the one failure anyone was worried about. Deriving the set from
+**observed** output instead — the `Set-Cookie` headers of real sign-in responses — costs about six
+lines and makes the test capable of failing.
+
+**For the other two, the repair is the same move: promote the precondition into an assertion of its
+own.** Count the token in the source and assert that count is non-zero *before* asserting it is zero
+afterwards. Assert that the planted gaps were plantable. The cookie test above carries one line that
+does exactly this —
+
+```js
+expect(issued.size, "the sign-in path issued nothing -- this would assert nothing").toBe(6);
+```
+
+— and without it the whole comparison degrades to `[] ⊇ []` the moment sign-in stops setting
+cookies, which is the failure most worth catching.
+
+> **Ask of any assertion: what would have to be deleted to make this fail?** If the answer is
+> "nothing I wrote this week," it is not a test yet. Confirmation takes ten seconds — delete the
+> code the assertion is meant to pin, run it, watch it go red — and reading either side alone will
+> never reveal the problem, because both sides are correct in isolation. The defect is in the
+> relationship.
+>
+> **Read the satisfier set where it is written down in front of you.** An infrastructure template
+> assertion required a configuration value to be present using a matcher that accepts **any** value,
+> so the satisfier set is visibly *anything*. Substituting the natural typo — an endpoint path
+> sitting two lines below two real ones that share its prefix — passed all 439 tests. A reviewer
+> caught it by making that substitution and watching the suite stay green, which works and costs a
+> run. Reading the matcher and saying aloud what it accepts costs nothing and would have caught the
+> same defect.
+
 **An assertion can have no path to red, because the harness loses the signal before the assertion
 reads it.** Two instances, in different shells, hours apart. A PowerShell runner started as
 `pwsh -File runner.ps1` dot-sourced the script under test: `exit 2` inside a dot-sourced script sets
@@ -423,15 +491,17 @@ green. Neither could have been anything else.
 
 ### 2.3 The review technique
 
-When reviewing a batch of tests — yours or the AI's — spend the effort on these five questions:
+When reviewing a batch of tests — yours or the AI's — spend the effort on these six questions:
 
 1. Does each test's assertion match what its **name** claims?
 2. What can the **fixtures** not express?
 3. Which tests would **still pass** against the reintroduced bug?
 4. Would this check still pass if the feature were **entirely absent**?
 5. What **else** produces the shape this predicate matches?
+6. Name the **satisfier set** — everything that would make this assertion pass. Which of them
+   existed yesterday?
 
-And one habit that is worth more than all five: **make every new assertion fail once, on purpose.**
+And one habit that is worth more than all six: **make every new assertion fail once, on purpose.**
 Break the thing it guards, watch it go red, then fix it. Ten seconds. It is the only way to know
 your test is connected to anything.
 
@@ -1373,7 +1443,7 @@ never returned non-zero, that is a fact about the harness, not about the system.
 
 ---
 
-*Created by Claude Opus 5. **Last substantive review by Torsten Kablitz: 2026-08-27.** The date is
+*Created by Claude Opus 5. **Last substantive review by Torsten Kablitz: 2026-09-14.** The date is
 the last review, not the first authorship — a document under continuous revision that carries its
 origin date tells a reader when it stopped being checked, which is the opposite of what they need.
 Distilled from years of DevOps and TDD practice across production systems; no proprietary or

@@ -706,6 +706,48 @@ If tests fail, say so and show the output. If a step was skipped, say that. When
 and verified, say it plainly without hedging. Do not narrate progress that hasn't happened, and
 never present in-flight work as finished.
 
+### 3.10 A field nothing can contradict is not a field to guess
+
+Every record you fill in — a charter, a registry row, a provenance label, a config field — mixes
+measured values with inferred ones. Inference is fine where something downstream would eventually
+disagree with it. It is dangerous in exactly the places where nothing would.
+
+A channel registering itself had to record what it had been forked from. The true answer was
+*nothing*: it started independently, months before the registry it was now joining existed. A
+plausible wrong answer was available and close at hand, because the shared notes described it as
+running with essentially another channel's context. That sentence describes **scope**, not
+**origin**, and nothing marks the difference unless you go looking for it. The channel wrote
+`undecided` and asked a person. The answer came back within hours and it was not the guess.
+
+**What made that the right call is not that the guess would have been wrong. It is that nothing
+would ever have said so.** A fork is an event and can be checked; the absence of a fork is not an
+event and leaves nothing behind. There was no log to consult, because the thing that would have been
+logged never happened, and the channel predated the record that would have captured it either way. A
+value written into that field becomes the answer — permanently, unopposed, and indistinguishable
+from a measured one.
+
+> **Before filling a field you inferred rather than measured, ask what would prove it wrong. If the
+> answer is "nothing," you are not recording a fact. You are creating one.**
+
+**The two errors are not symmetric, and that asymmetry is the whole argument.** An explicit
+`undecided` is visibly incomplete: it advertises the gap, invites the question, and costs a few
+hours. A guessed value is invisibly complete: it closes the question, and every later reader
+inherits it as settled. A blank row and an unasked question look identical — and so do an answered
+row and a guessed one, which is the worse pair, because the blank at least stops nobody from asking.
+
+**Know which of your fields are checkable, because most are.** A provenance label on the same
+project once recorded four accounts as existing, attributed to the owner; what the owner had
+actually said was that everyone was "on the plan," and the label had quietly turned that into a
+fact. That one *was* checkable — a
+single lookup settled it, and did, the same day. The rule here is not "never infer." It is that the
+unfalsifiable fields are a small set, they are worth identifying before you fill them, and they are
+the only ones where waiting for a person beats writing your best estimate.
+
+This is Part 2's rule pointed at records rather than tests. There, an absence is evidence only if
+you first proved the presence. Here, **a filled field is a record only if something could have
+contradicted it.** Both fail the same way: the artifact looks complete, every check passes, and the
+defect sits in what the check was never able to see.
+
 ---
 
 ## Part 4 — The operating loop
@@ -1443,7 +1485,7 @@ never returned non-zero, that is a fact about the harness, not about the system.
 
 ---
 
-*Created by Claude Opus 5. **Last substantive review by Torsten Kablitz: 2026-09-14.** The date is
+*Created by Claude Opus 5. **Last substantive review by Torsten Kablitz: 2026-09-22.** The date is
 the last review, not the first authorship — a document under continuous revision that carries its
 origin date tells a reader when it stopped being checked, which is the opposite of what they need.
 Distilled from years of DevOps and TDD practice across production systems; no proprietary or

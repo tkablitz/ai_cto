@@ -12,7 +12,10 @@ it, say so in your roster entry, because the entry is then the only account of y
 they have. The handoffs row below already asks this question; it applies here first.
 
 Copy it, fill it, register it. If a row cannot be answered yet, write **`undecided`** — a blank row
-and an unasked question look identical, and only one of them is safe.
+and an unasked question look identical, and only one of them is safe. **A guessed row is worse than
+either**: it closes the question instead of raising it, and it reads exactly like a
+measured one. See §3.10 of the guide for where that matters most — the fields nothing
+downstream would ever contradict, in which a guess quietly becomes the answer.
 
 ---
 
@@ -168,4 +171,4 @@ differ" were both true and reported hours apart — the copy was clean, and the 
 afterwards. **A verification run at the wrong moment tells the wrong story even when everyone involved
 is honest and correct.**
 
-<!-- SPDX-License-Identifier: MIT · rev 2026-09-22 · © 2026 Torsten Kablitz · https://github.com/tkablitz/ai_cto -->
+<!-- SPDX-License-Identifier: MIT · rev 2026-09-22.2 · © 2026 Torsten Kablitz · https://github.com/tkablitz/ai_cto -->

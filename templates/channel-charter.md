@@ -2,7 +2,14 @@
 
 A **channel** is a session that outlives the task it started on. This file is what a channel fills in
 before it writes anything, and what the other channels read to find out it exists. One per channel,
-committed where every channel can see it.
+committed in the channel's own repository.
+
+**Committed is not the same as readable, and only one of them is visible from
+outside.** A charter in a repository with no remote, or one no other channel can
+reach, looks identical to a charter in a shared one: the file exists, the rows are
+filled, the commit is real. If yours is not reachable by the channels meant to read
+it, say so in your roster entry, because the entry is then the only account of you
+they have. The handoffs row below already asks this question; it applies here first.
 
 Copy it, fill it, register it. If a row cannot be answered yet, write **`undecided`** — a blank row
 and an unasked question look identical, and only one of them is safe.
@@ -161,4 +168,4 @@ differ" were both true and reported hours apart — the copy was clean, and the 
 afterwards. **A verification run at the wrong moment tells the wrong story even when everyone involved
 is honest and correct.**
 
-<!-- SPDX-License-Identifier: MIT · rev 2026-09-03 · © 2026 Torsten Kablitz · https://github.com/tkablitz/ai_cto -->
+<!-- SPDX-License-Identifier: MIT · rev 2026-09-22 · © 2026 Torsten Kablitz · https://github.com/tkablitz/ai_cto -->

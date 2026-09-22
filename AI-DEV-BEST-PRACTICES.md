@@ -697,8 +697,27 @@ boundary is **external visibility**: a wiki page, a document sent onward, anythi
 on explicit approval. "Add it to the wiki today" authorizes the *plan*, not skipping the review.
 
 Two mechanical details worth pre-agreeing: mirrors of already-reviewed repo docs can have standing
-re-sync authorization (the commit was the reviewed artifact); and the attribution must name the
-model **actually running**, not the one copied forward from the last document.
+re-sync authorization (the commit was the reviewed artifact); and an attribution must never be
+copied forward from the last document, which is how a line stops describing anything.
+
+**An attribution line does one of two jobs, and they take opposite answers.** A **credit** tells a
+reader that AI was used at all. Its purpose is advocacy — the reader should come away more willing
+to work this way, not less — and it names the **model family**, because variant precision serves
+nobody reading it and a family name survives the model changing partway through a document. A
+**record** says who wrote this, to be checked later: a commit trailer, a guide's own footer, a
+provenance field. It names the **model actually running**, because that is its entire function.
+
+Two projects arrived at opposite rules and each was right about its own artifact. The failure behind
+the family rule was documents repeatedly stamped with the wrong variant. The failure behind the
+exact-model rule was **476 commits out of 603 naming a model that had not written them**, because
+the line had been templated into the prompt that dispatched the agents. **A constant is correct in a
+credit and fatal in a record.** Decide which one you are writing before you decide what goes in it.
+
+> **A family name is true only while every contributor is in that family — check it rather than
+> assume it.** One session's transcript held seventy-two dispatches to one model and two to a model
+> outside the family its documents would have claimed. A wrong variant is visibly wrong to anyone
+> who looks; **a wrong family reads correct**, which makes it the more expensive mistake even though
+> it is the rarer one.
 
 ### 3.9 Report honestly
 

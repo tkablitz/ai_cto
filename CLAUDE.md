@@ -144,7 +144,10 @@ for f in starter-CLAUDE.md templates/*.md; do grep -q SPDX "$f" || echo "NO NOTI
 ## Editorial standards
 
 - **The guides are reviewed artifacts.** Substantive changes get the owner's review before push.
-  Attribution lines name the model that actually did the work and assert a review that happened.
+  Attribution lines in this repo are **records**, not credits: they name the model that actually did
+  the work and assert a review that happened. A *credit* on a document written for a reader takes
+  the opposite rule and names the model **family** — the split, and why a constant is correct in one
+  and fatal in the other, is guide §3.8. Do not reconcile the two; they disagree on purpose.
 - **Claims cite mechanisms, not authority.** Every rule in the guides earns its place with a
   concrete failure. Don't add advice that lacks one.
 - **No dangling references.** If a guide cites a template, that template ships here. Verify.

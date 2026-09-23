@@ -118,6 +118,11 @@ where the next build finds it. **A channel's display name in your tool's UI may 
 list even when its short name is not** — so the short name is the only token that ever travels into
 a commit trailer, a PR body, or anything reaching a public repository.
 
+**Then use the short name as the session's title in your tool as well.** Where sessions can message
+one another, the title is the address they use, so one name serves as roster key, charter identity
+and address. It also closes the gap above: a session titled with a cleared short name has no display
+name left to carry a token the short name was cleared of.
+
 **B. Where the repository lives.** This decides which identity tier the clone lands in (§0's fourth
 row), which CLI creates it, and whether the platform's PR flow applies. Do not assume; measure it
 with a throwaway:
@@ -211,6 +216,10 @@ unseeded, with none of the working agreements loaded:
 > after seeding. On one build the owner renamed and pinned this session in the tool's session list —
 > reasonably, it was the only one for that directory — and had to unpin and replace it. **The step
 > reads like the beginning of the channel; it is the beginning of the measurement.**
+>
+> **Above all, never give it the channel's short name.** When a live session already holds a title,
+> the tool gives the next session to claim it a suffixed variant instead — so the real channel would
+> start life under an address nobody chose.
 
 **Open it in the surface the channel will actually run in.** If the desktop app and the CLI derive
 keys differently, the seed lands where the real session never looks. The check below catches *"no
@@ -270,11 +279,17 @@ the index is where a channel's own memories are listed.
 
 ## 5. The first prompt — and what it must and must not carry
 
-Open a new session at `<channel-dir>` — this one is seeded. The prompt sends the channel to read the
-playbook, its memory, and the coordination record; tells it its short name and its context; and
-instructs it to measure its own key, write its charter from `templates/channel-charter.md`, and draft
-its roster entry for you to register. Then the first goal, which is a written brainstorm — not a
-plan, and not any cloud resource.
+Open a new session at `<channel-dir>` — this one is seeded. **Before the first prompt, title it with
+the short name, then turn on Remote Control** (the desktop app's switch that makes a session
+reachable from another machine) — in that order. Both halves were measured on one rollout: a
+session's remote entry kept the title it had when Remote Control connected, so a later rename showed
+on the other machine only after the switch was toggled; and a session's own listing showed the other
+machine only once its own switch was on. Titled first, nothing needs toggling.
+
+The prompt sends the channel to read the playbook, its memory, and the coordination record; tells it
+its short name and its context; and instructs it to measure its own key, write its charter from
+`templates/channel-charter.md`, and draft its roster entry for you to register. Then the first goal,
+which is a written brainstorm — not a plan, and not any cloud resource.
 
 Two opposite-looking rules, both load-bearing:
 
@@ -295,6 +310,12 @@ allowlist disposition in the same act** — §1D. Then re-run whatever drift che
 the result before believing it: on one build the check classified the new address correctly *and
 explained the classification wrongly*, naming the local part when the domain had matched.
 
+**The entry carries a messaging-address row** — the session title as the channel reads it on its own
+machine, which should equal the short name. **Then confirm the channel is reachable under that name
+from the other machine.** It is the one place a stale title shows, because a session never sees its
+own remote entry and its own listing omits itself. On the rollout, one listing appeared to be
+missing a channel; it was the channel that had run it.
+
 ## Not on day one
 
 **No cloud bootstrap, no pipeline.** If the channel needs cloud accounts, the runbooks for that open
@@ -309,4 +330,4 @@ entry, or name the other channels. It does not automate the description step. An
 to have found every machine default — the table in §0 is short because five have been measured, not
 because only five exist. When you find the sixth, add it there rather than beside it.
 
-<!-- SPDX-License-Identifier: MIT · rev 2026-09-07 · © 2026 Torsten Kablitz · https://github.com/tkablitz/ai_cto -->
+<!-- SPDX-License-Identifier: MIT · rev 2026-09-23 · © 2026 Torsten Kablitz · https://github.com/tkablitz/ai_cto -->

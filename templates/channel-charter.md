@@ -23,7 +23,7 @@ downstream would ever contradict, in which a guess quietly becomes the answer.
 
 | Field | Value |
 | --- | --- |
-| **Short name** | How other channels address this one. Lowercase, no spaces. **A greenfield channel names its root context; a fork names its lineage** — the roster's job is telling channels apart, and the first channel for a new context has no lineage to name itself for. Then read §3 before minting an address from it: a name that is fine on a private roster is not automatically fine in public commit metadata |
+| **Short name** | How other channels address this one — and, where sessions can message each other, **this session's title too**, since the title is the address they use. Lowercase, no spaces. **A greenfield channel names its root context; a fork names its lineage** — the roster's job is telling channels apart, and the first channel for a new context has no lineage to name itself for. Then read §3 before minting an address from it: a name that is fine on a private roster is not automatically fine in public commit metadata |
 | **Purpose** | One sentence. What this channel is *for*, not what it did last |
 | **Parent** | The short name it was forked from, or `none`. **A fork is a new channel** |
 | **Depends on** | Channels this one reads from without owning any of their work, or `none`. **This is not `Parent`** — a fork inherits a lineage, a dependency is a sibling relationship that exists in the present tense. Say what flows and in which direction. **If the thing you depend on is not a registered channel, say that too, and name it as unregistered rather than by its path** — a row naming a directory where it should name a channel is a copy of state that will go stale, and the gap is the registry's to close, not yours to paper over |
@@ -171,4 +171,4 @@ differ" were both true and reported hours apart — the copy was clean, and the 
 afterwards. **A verification run at the wrong moment tells the wrong story even when everyone involved
 is honest and correct.**
 
-<!-- SPDX-License-Identifier: MIT · rev 2026-09-22.2 · © 2026 Torsten Kablitz · https://github.com/tkablitz/ai_cto -->
+<!-- SPDX-License-Identifier: MIT · rev 2026-09-23 · © 2026 Torsten Kablitz · https://github.com/tkablitz/ai_cto -->

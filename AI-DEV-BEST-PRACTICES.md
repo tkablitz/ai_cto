@@ -1079,6 +1079,23 @@ observes anything unusual.
   writer. Read-only is a real role, not a demotion.
 - **Ground-truth at every kickoff.** The sibling channel may have shipped while you weren't looking.
 
+**When sessions can message one another directly, use it — and keep a shared record for whatever has
+to outlive the message.** Think of a direct message and an email. What another session needs *now*
+goes to it directly; on one machine that is fast and never leaves the box. What can wait for its
+next start goes in the shared record, which is also the only lane that reaches a session that is not
+running. Two exchanges between sessions settled three decisions in one afternoon, and they exist
+anywhere else only because one side wrote them down afterwards.
+
+> **A decision made in a direct exchange still goes in the record.** A message is read once, by one
+> session, and then it is gone. And a message to an idle session starts a turn there and spends
+> tokens, so *now* has to mean now — never an acknowledgement, and never a test of the lane.
+
+**Title each session with the name the others use for it**, because where the title is the address,
+a session titled after a task is unreachable by the name everyone else calls it. And if your tool
+registers a session for reach from another machine, check which title it registered under: in one
+rollout three sessions kept the title they had when they connected, and a rename made afterwards did
+not reach the other machine until the registration was redone.
+
 **An approval request must name what it will change.** A human running several sessions holds one
 piece of context — *which channel am I in* — and will use it to interpret any request that doesn't
 supply its own. An approval raised inside one project's session, for a change to a different
@@ -1546,7 +1563,7 @@ never returned non-zero, that is a fact about the harness, not about the system.
 
 ---
 
-*Created by Claude Opus 5. **Last substantive review by Torsten Kablitz: 2026-09-22.** The date is
+*Created by Claude Opus 5. **Last substantive review by Torsten Kablitz: 2026-09-23.** The date is
 the last review, not the first authorship — a document under continuous revision that carries its
 origin date tells a reader when it stopped being checked, which is the opposite of what they need.
 Distilled from years of DevOps and TDD practice across production systems; no proprietary or

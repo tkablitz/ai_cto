@@ -114,14 +114,19 @@ done
 An organization's full name will match. An **abbreviation of it will not** — and it is still
 organization-derived; the scan cannot see it. Decide deliberately whether that is acceptable (one
 owner ruled that an abbreviation identifying nothing to an outsider is fine), and record the ruling
-where the next build finds it. **A channel's display name in your tool's UI may itself be on the
-list even when its short name is not** — so the short name is the only token that ever travels into
-a commit trailer, a PR body, or anything reaching a public repository.
+where the next build finds it.
 
-**Then use the short name as the session's title in your tool as well.** Where sessions can message
-one another, the title is the address they use, so one name serves as roster key, charter identity
-and address. It also closes the gap above: a session titled with a cleared short name has no display
-name left to carry a token the short name was cleared of.
+**Then title the channel's session with the short name, so the two are one string.** Where sessions
+can message one another, the title is the address they use, so one name serves as roster key,
+charter identity and address — and the display name can never carry more than the short name does.
+
+**That covers channels, not every session.** Task and one-off sessions keep the titles the tool or
+the task gave them, which can name the product or client they were working on, and those titles now
+appear in every other session's listing and in the header of any message they send. On one rollout a
+listing held a task session titled after the product it was investigating, and the channel reading
+it declined to repeat the title on a shared record for exactly this reason. **So only the short name
+— and only once it has cleared the check above — ever travels into a commit trailer, a PR body, or
+anything reaching a public repository. Never a title read off a listing.**
 
 **B. Where the repository lives.** This decides which identity tier the clone lands in (§0's fourth
 row), which CLI creates it, and whether the platform's PR flow applies. Do not assume; measure it
@@ -330,4 +335,4 @@ entry, or name the other channels. It does not automate the description step. An
 to have found every machine default — the table in §0 is short because five have been measured, not
 because only five exist. When you find the sixth, add it there rather than beside it.
 
-<!-- SPDX-License-Identifier: MIT · rev 2026-09-23 · © 2026 Torsten Kablitz · https://github.com/tkablitz/ai_cto -->
+<!-- SPDX-License-Identifier: MIT · rev 2026-09-23.2 · © 2026 Torsten Kablitz · https://github.com/tkablitz/ai_cto -->

@@ -767,6 +767,48 @@ you first proved the presence. Here, **a filled field is a record only if someth
 contradicted it.** Both fail the same way: the artifact looks complete, every check passes, and the
 defect sits in what the check was never able to see.
 
+### 3.11 Write so the reader does not have to go looking
+
+**A reference is not meaning. It is a promise of meaning stored elsewhere, redeemable only by work
+the reader has to do.** Not an argument for brevity: a short message dense with references is worse
+than a longer one that explains, because the references move the cost without showing it. It is
+invisible from the writing side: every reference in the report that produced this section was
+accurate, and it was caught on the third occurrence, by the person paying for it.
+
+**Say what a thing did, not what it is called.** An opaque identifier — a commit hash, a build
+number, a run id, a ticket number — is an index into work the reader did not do. Not "the change
+from this morning is working," named by hash, but "the fix that makes a success response with a
+failure body count as a failure." If it is genuinely needed for lookup it goes in parentheses at the
+end, never as the subject. **Delete it and see: if the sentence still means something it was
+decoration; if it leaves a hole, you named the thing by its index and owe the sentence a
+description.** The same rule kills "see the handoff" where an explanation belongs. **If someone
+relies on your summary and opens documents only when a question arises, the summary is the
+deliverable, not a pointer to it** — and writing the document well is how you disguise having
+skipped the explaining.
+
+> **Scope this by primary reader, not by who happens to see it, and read this before applying
+> anything above.** In a message to a person, no bare identifiers. **State you keep for yourself — a
+> handoff, session notes, a memory file — follows the opposite rule**: its primary reader is the
+> next instance of you, identifiers are the continuity and the compression, and a human who skims
+> one is not its audience. Technical documents carry identifiers freely; the document is its own
+> context. Both people who wrote this rule down got it wrong the same way first — helpfully, toward
+> the reader, and straight through their own continuity.
+
+**Name things the way the reader's own tools name them.** An identifier their interface does not
+display is unusable however correct it is. This costs less than it looks: you learn a reader's
+surface once, not once per reference. The fallback never blocks — what a thing did, when, and
+against what needs nobody's screen. **But when you do reach for a tool-specific name, verify it is
+the one displayed rather than assuming.** The originating failure was not ignorance of the
+interface; it was assuming the interface showed an id when it showed none, and **an assumed
+tool-name is worse than a plain description, because it looks like you checked.**
+
+**Introduce before you abbreviate.** Say once what a thing is, when, and why it matters, before any
+shorthand for it. **A handle introduced in this document is usable in this document; a handle coined
+in earlier work is not, however natural it now feels** — and it feels natural because you did the
+work that made it so. A person's name is not a handle either. **Anyone carrying state across
+sessions has this harder**, because yesterday's coinage arrives pre-warmed and carries no signal
+that the reader never saw it created.
+
 ---
 
 ## Part 4 — The operating loop

@@ -3,7 +3,7 @@
 **Audience:** development team + project/product management.
 **Purpose:** one shared meaning for the word "Completed," so status tables, standups, and
 architecture documents say the same thing to everyone.
-**Created by Claude `<model>` · last substantive review by `<owner>`, `<date>`**
+**Created by Claude `<model-family>` · last substantive review by `<owner>`, `<date>`**
 
 ## 1. The core rule
 
@@ -54,4 +54,4 @@ Prototype, no matter how well it demos.
    in present tense) and **demo-as-done** (sandbox walkthrough labeled Completed).
 5. A milestone is met when its rows are **Complete with evidence** — not when the demo went well.
 
-<!-- SPDX-License-Identifier: MIT · rev 2026-08-22 · © 2026 Torsten Kablitz · https://github.com/tkablitz/ai_cto -->
+<!-- SPDX-License-Identifier: MIT · rev 2026-10-17 · © 2026 Torsten Kablitz · https://github.com/tkablitz/ai_cto -->

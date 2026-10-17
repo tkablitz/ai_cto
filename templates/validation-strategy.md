@@ -1,6 +1,6 @@
 # `<System>` — Validation Strategy
 
-**Created by Claude `<model>` · last substantive review by `<owner>`, `<date>`**
+**Created by Claude `<model-family>` · last substantive review by `<owner>`, `<date>`**
 
 > **TDD expanded, not replaced.** The *T* is generic. Test-driven means tests are foundational and
 > written first — they are how the design gets specified, not how it gets checked afterwards. What
@@ -214,4 +214,4 @@ Ask these of the strategy, not of individual tests. The per-test questions are i
 Statuses and the five criteria for **Complete** are defined in `templates/definition-of-done.md`.
 Every "Complete" carries the evidence that proves it.
 
-<!-- SPDX-License-Identifier: MIT · rev 2026-08-22 · © 2026 Torsten Kablitz · https://github.com/tkablitz/ai_cto -->
+<!-- SPDX-License-Identifier: MIT · rev 2026-10-17 · © 2026 Torsten Kablitz · https://github.com/tkablitz/ai_cto -->

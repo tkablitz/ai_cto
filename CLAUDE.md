@@ -45,6 +45,10 @@ catches the cases where judgment was already exercised and then forgotten.
 `git push --no-verify` bypasses it, as it bypasses any hook. That is git's design and cannot be
 prevented from inside the hook.
 
+**Never push this repository from a cloud or other ephemeral session.** A fresh clone there has no
+activated hook and no name list, so the gate described above does not exist in it. Push only from a
+workstation clone where the hook is activated.
+
 **To prove the gate is real, use a throwaway branch — never `main`.** The hook scans the whole range
 being pushed, not just the tip, so a violation committed and then *reverted* still reds it: the
 revert adds a commit, it does not remove one, and the branch stays unpushable until the history is

@@ -491,7 +491,7 @@ green. Neither could have been anything else.
 
 ### 2.3 The review technique
 
-When reviewing a batch of tests — yours or the AI's — spend the effort on these six questions:
+When reviewing a batch of tests — yours or the AI's — spend the effort on these seven questions:
 
 1. Does each test's assertion match what its **name** claims?
 2. What can the **fixtures** not express?
@@ -500,8 +500,10 @@ When reviewing a batch of tests — yours or the AI's — spend the effort on th
 5. What **else** produces the shape this predicate matches?
 6. Name the **satisfier set** — everything that would make this assertion pass. Which of them
    existed yesterday?
+7. What does this check **read** — characters, a syntax tree, a screen, a status — and what
+   defect lives outside it? (§2.6)
 
-And one habit that is worth more than all six: **make every new assertion fail once, on purpose.**
+And one habit that is worth more than all seven: **make every new assertion fail once, on purpose.**
 Break the thing it guards, watch it go red, then fix it. Ten seconds. It is the only way to know
 your test is connected to anything.
 
@@ -565,6 +567,54 @@ Layer placement, thresholds and blind spots for this and every other validation 
 `templates/validation-strategy.md`.
 
 ---
+
+### 2.6 A check sees only the shape it was written for
+
+§2.2's checks cannot go red. These can: each assertion is sound, and would fail correctly if the
+defect ever reached it. **It never does, because the defect lives where the instrument does not
+look.** Every guard reads something: raw characters, a syntax tree, a rendered screen, an exit
+status. The defects it can catch are the ones that show up in what it reads.
+
+**Characters cannot see structure.** A route registration that the formatter had split across two
+lines was invisible to three text-matching guards at once, and a commented-out call to the access
+check satisfied the guard asking *is this route protected*. Both were found only when the guard was
+rewritten to read the syntax tree.
+
+**And a syntax tree cannot see characters.** That same rewrite lost a case the regex had been catching
+by accident: markup held in a string and handed to a raw-HTML sink, which no tree walk reads as
+markup. No test named the case, because nobody knew the regex covered it.
+
+> **When you replace a heuristic with a precise tool, ask what the heuristic's imprecision was
+> covering.** A loose match catches things nobody listed. Its replacement will not, and no test
+> will notice the difference.
+
+**Grepping a component's source is not testing it.** Every test touching a decision component
+checked its source text, and none of them ever made it decide. A reviewer deleted the decision call
+and hard-coded a pass: **454 passed, 0 failed.** The reviewer then replaced its `throw` with
+*log the error and return*, which is word for word the failure its specification names, and the
+suite stayed green.
+
+> **If a component's front end is tested by grepping its code, assume it is untested.** A text
+> assertion also catches only the spelling it was written against: a source scan added to stop one
+> defect from coming back caught **1 of 9** ways of writing the same bug, and the dangerous miss
+> failed silently.
+
+**A rendered screen can sit in a window the gate cannot observe.** An admin screen announced three
+failures on every visit, because "still loading" and "failed" were the same value. The end-to-end
+gate never saw it: its driver waits automatically past exactly that window. Beside it, six CSS
+borders that rendered nothing had passed every code review, and were caught at once by the one
+guard that compared the screen against the **design document** instead of the code.
+
+**A status sees completion, not time.** A scheduled report sat for hours, every morning, on an
+approval prompt nobody was there to answer. Every run was listed as succeeded, because each one did
+complete: the status field records *whether* a run finished and has no way to say *when*. A report
+three hours late was indistinguishable from one on time.
+
+> **Ask of any guard: what does it actually read, and which defects live in the gap between that
+> and the thing it guards?** Then add a reader for the gap: a parser beside a regex, a run that
+> makes the component decide, a check against the design rather than the code, a timestamp beside
+> the status. The neighbouring case in §2.2, an assertion that cannot see the property on the
+> platform where it runs, is the same question asked about where the check executes.
 
 ## Part 3 — Working agreements with the AI
 
@@ -1563,7 +1613,7 @@ never returned non-zero, that is a fact about the harness, not about the system.
 
 ---
 
-*Created by Claude Opus 5. **Last substantive review by Torsten Kablitz: 2026-09-23.** The date is
+*Created by Claude Opus 5. **Last substantive review by Torsten Kablitz: 2026-10-17.** The date is
 the last review, not the first authorship — a document under continuous revision that carries its
 origin date tells a reader when it stopped being checked, which is the opposite of what they need.
 Distilled from years of DevOps and TDD practice across production systems; no proprietary or

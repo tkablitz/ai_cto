@@ -12,7 +12,7 @@
 #
 #     git config core.hooksPath .githooks
 #
-# `git push --no-verify` bypasses this. That is git's behaviour and cannot be
+# `git push --no-verify` bypasses this. That is git's behavior and cannot be
 # prevented from here; it is why the recoverable checks are duplicated in CI
 # when CI exists.
 

@@ -95,7 +95,7 @@ Take the rest when you hit the need for it, not before. That is §1.11 applied t
 
 **Telling a stale copy from a current one.** Once a scaffold is in your repo it stops receiving
 updates — nothing here can reach it, and a copy that silently diverges is the problem this package
-spends a whole section on. So each copyable file carries a `rev` date in the licence notice at the
+spends a whole section on. So each copyable file carries a `rev` date in the license notice at the
 end:
 
 ```html
@@ -159,7 +159,7 @@ result rather than a surprise, and turns an incident into a regression test inst
 The systems these happened to are not named, and nothing here is confidential to any client. Use it,
 adapt it, pass it to a colleague.
 
-Two suggestions if you do pass it on. Keep Part 7 — the catalogue of ways tooling lies to you — even
+Two suggestions if you do pass it on. Keep Part 7 — the catalog of ways tooling lies to you — even
 though it looks like the most skippable section; it's the part people come back to. And fold your
 own post-mortems into it as you accumulate them. A best-practices doc that never grows is a doc
 nobody learned anything from.

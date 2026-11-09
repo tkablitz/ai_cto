@@ -10,7 +10,7 @@ guide exists to keep those two honest when a machine is producing code faster th
 
 > **How to use this.** Read Part 0 and Part 1 before you configure anything. Part 6 is the
 > copy-paste setup. Parts 2–5 are what you come back to when something bites you. Part 7 is the
-> catalogue of ways tooling lies to you.
+> catalog of ways tooling lies to you.
 
 ---
 
@@ -247,7 +247,7 @@ nobody can ask why it was not taken. The code does not carry the constraint that
 > that it runs, not merely that it resolves**: a 121-byte Windows Store alias answers `command -v`,
 > prints an install hint, and exits `0` (Part 7). If it is genuinely absent and the workaround costs
 > more than a few lines or would recur, **ask**, naming what you wanted it for, what going without
-> costs, and what adding it costs: provenance, licence, and attack surface are the owner's call, not
+> costs, and what adding it costs: provenance, license, and attack surface are the owner's call, not
 > the agent's. **Never install it yourself**, especially on a machine that touches someone else's
 > code. Meanwhile keep working and mark the fallback provisional; stop only if shipping the fallback
 > is worse than waiting.
@@ -402,7 +402,7 @@ forward is exactly what success looks like.
 > by habit. The small files tooling keeps beside itself — markers, cursors, last-seen ids, caches —
 > almost never do, and they are precisely the state whose corruption has no symptom. Give every leg an
 > injectable path to that state and point it somewhere disposable. Then prove it: **hash the real
-> artefact before and after a full suite run, and assert it did not move.** That tests the property
+> artifact before and after a full suite run, and assert it did not move.** That tests the property
 > that matters, which is that nothing moved — not the one that is easy to assert, which is that the
 > tests passed.
 
@@ -613,7 +613,7 @@ three hours late was indistinguishable from one on time.
 > **Ask of any guard: what does it actually read, and which defects live in the gap between that
 > and the thing it guards?** Then add a reader for the gap: a parser beside a regex, a run that
 > makes the component decide, a check against the design rather than the code, a timestamp beside
-> the status. The neighbouring case in §2.2, an assertion that cannot see the property on the
+> the status. The neighboring case in §2.2, an assertion that cannot see the property on the
 > platform where it runs, is the same question asked about where the check executes.
 
 ## Part 3 — Working agreements with the AI
@@ -910,7 +910,7 @@ you act four hours later. **Re-read before acting on anything cross-channel, and
 check in today?" test, evaluated at one instant, marked a channel absent that had checked in 27
 minutes earlier — the check measured arrival order and reported it as compliance. Absence at an
 instant is not absence in a day. Name the cutoff, or you publish your own timing as someone else's
-behaviour.
+behavior.
 
 **But a check-in record shows when someone last ran — never whether they should have.** The
 temptation once the record exists is to read a stale entry as a lapse. Resist it: in most multi-agent
@@ -1138,7 +1138,7 @@ anywhere else only because one side wrote them down afterwards.
 
 > **A decision made in a direct exchange still goes in the record.** A message is read once, by one
 > session, and then it is gone. And a message to an idle session starts a turn there and spends
-> tokens, so *now* has to mean now — never an acknowledgement, and never a test of the lane.
+> tokens, so *now* has to mean now — never an acknowledgment, and never a test of the lane.
 
 **Title each session with the name the others use for it**, because where the title is the address,
 a session titled after a task is unreachable by the name everyone else calls it. And if your tool
@@ -1184,7 +1184,7 @@ been run — check your own tree for sibling names that differ only by that char
 **Most shared directories were never chosen — but not because nobody decided.** The forking decision
 gets made, deliberately and often in writing; it is about *what the new channel will work on*. The
 directory is not part of that sentence, so it inherits silently even when the split itself was
-careful. One measured instance: a fork created with a written rationale for the division of labour,
+careful. One measured instance: a fork created with a written rationale for the division of labor,
 sharing a store with its parent for seven days, with no line anywhere choosing that. Ten memory
 files in the shared store, **six of them belonging to one channel and four to the other**, every one
 read into both contexts on every run.
@@ -1232,7 +1232,7 @@ three commits whose author could not be identified by the channel that owned the
 
 - **A fork is a new channel.** Give it its own directory *before it writes anything*. The move itself
   stays cheap and does not get harder with time — one report from inside the retrofit puts it at six
-  files and six index lines, minutes of work. **What retrofitting costs you is not labour, it is the
+  files and six index lines, minutes of work. **What retrofitting costs you is not labor, it is the
   provenance that was never captured**, and no amount of later effort reconstructs it.
 - **To read another channel's repository, clone it separately — at a path outside every channel's
   directory.** A shared clone parked inside one channel's tree is *that channel's*, whatever the
@@ -1431,7 +1431,7 @@ that never triggers is indistinguishable from one that doesn't exist.
 
 ---
 
-## Part 7 — The catalogue of ways tooling lies to you
+## Part 7 — The catalog of ways tooling lies to you
 
 Every one of these cost real hours. They are not exotic — they are the *normal* texture of
 automating against real platforms, and the generalized rule matters more than the specific case.
@@ -1590,7 +1590,7 @@ never returned non-zero, that is a fact about the harness, not about the system.
 
 ### Session kickoff
 - [ ] Read the shared coordination record — before pulling, if others work on this material
-- [ ] Scan your memory store for files you did not write — one you do not recognise means another
+- [ ] Scan your memory store for files you did not write — one you do not recognize means another
       session shares your directory (§5.9)
 - [ ] Pull every repo, including read-only ones
 - [ ] Re-probe deployed versions from the live systems
